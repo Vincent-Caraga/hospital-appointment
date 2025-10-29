@@ -1,0 +1,85 @@
+/* Mobile styles */
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #67c090;
+  font-family: Arial, sans-serif;
+  padding: 15px; /* Smaller padding for mobile */
+}
+.login-container {
+  background-color: #ffffff;
+  padding: 30px 20px; /* Mobile-optimized padding */
+  border-radius: 12px;
+  width: 100%;
+  max-width: 100%; /* Full width on mobile */
+  text-align: center;
+}
+.login-logo {
+  color: #6c757d;
+  margin-bottom: 5px;
+  font-size: 1.5rem; /* Smaller font size for mobile */
+}
+.login-title {
+  color: #6c757d;
+  margin-bottom: 25px;
+  font-size: 0.9rem;
+}
+/* Form Grouping and Inputs */
+.form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #343a40;
+}
+.form-group input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+}
+.form-group input:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+.login-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-bottom: 10px;
+}
+.login-links {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin-top: 10px;
+}
+
+/* Desktop styles */
+@media (min-width: 500px) {
+  .login-container {
+    padding: 40px; /* Restore desktop padding */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Add shadow for desktop */
+    max-width: 400px; /* Constrain width on desktop */
+  }
+  .login-logo {
+    font-size: 1.8rem; /* Larger font size for desktop */
+  }
+}
+
+/* Last edit Oct 20 */

@@ -1,0 +1,92 @@
+/* Mobile first */
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #67c090;
+  font-family: "Poppins", sans-serif;
+  padding: 1rem;
+}
+.register-box {
+  background: #ffffff;
+  padding: 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 350px;
+}
+.register-box h1 {
+  text-align: center;
+  color: #2b2b2b;
+  margin-bottom: 1.2rem;
+  font-size: 1.5rem;
+}
+.register-box form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+.register-box input {
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+.register-box input:focus {
+  border-color: #2563eb;
+}
+.register-box button {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 0.9rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.register-box button:hover {
+  background-color: #1e40af;
+}
+.register-message {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+.register-message.success {
+  color: #10b981;
+}
+.register-message.error {
+  color: #ef4444;
+}
+
+/* Tablet */
+@media (min-width: 640px) {
+  .register-box {
+    max-width: 400px;
+    padding: 2rem;
+  }
+
+  .register-box h1 {
+    font-size: 1.8rem;
+  }
+}
+
+/* Large devices (desktop, laptop) */
+@media (min-width: 1024px) {
+  .register-container {
+    background: linear-gradient(135deg, #dbeafe, #eff6ff);
+  }
+
+  .register-box {
+    max-width: 450px;
+    padding: 2.5rem;
+  }
+
+  .register-box h1 {
+    font-size: 2rem;
+  }
+}

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "../CSS/Register.css";
 
 const Register = () => {
@@ -110,26 +111,34 @@ const Register = () => {
               value={formData.password}
               onChange={handleChange}
             />
+            <span
+              className="eye-icon"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </span>
           </div>
 
-          <input
-            type="password"
-            name="confirmPassword"
-            placeholder="Confirm Password"
-            value={formData.confirmPassword}
-            onChange={handleChange}
-          />
+          {/* Confirm Password field */}
+          <div className="password-field">
+            <input
+              type={showConfirm ? "text" : "password"}
+              name="confirmPassword"
+              placeholder="Confirm Password"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+            />
+            <span
+              className="eye-icon"
+              onClick={() => setShowConfirm(!showConfirm)}
+            >
+              {showConfirm ? <FaEyeSlash /> : <FaEye />}
+            </span>
+          </div>
+
           <button type="submit">Register</button>
         </form>
-        {message && (
-          <p
-            className={`register-message ${
-              message.includes("success") ? "success" : "error"
-            }`}
-          >
-            {message}
-          </p>
-        )}
+        {message && <p className="register-message">{message}</p>}
       </div>
     </div>
   );

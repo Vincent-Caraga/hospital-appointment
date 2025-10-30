@@ -74,6 +74,29 @@
     font-size: 1.8rem;
   }
 }
+.password-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-field input {
+  width: 100%;
+  padding-right: 2.5rem; /* space for the eye icon */
+}
+
+.eye-icon {
+  position: absolute;
+  right: 10px;
+  color: #6b7280;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.eye-icon:hover {
+  color: #2563eb;
+}
 
 /* Large devices (desktop, laptop) */
 @media (min-width: 1024px) {

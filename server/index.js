@@ -68,4 +68,4 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
-//Last edit Oct 16 and okay na rito with database connection and proceed to frontend
+//Last edit Oct 16 and with database connection and proceed to frontend

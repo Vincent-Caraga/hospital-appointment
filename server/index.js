@@ -34,11 +34,16 @@ app.get("/", (req, res) => {
 
 //A. GET ALL DOCTORS ROUTE
 app.get("/api/doctors", async (req, res) => {
+  const { specialty, name } = req.query;
   try {
-    const allDoctors = await pool.query(
-      "SELECT doctor_id, first_name, last_name, specialty FROM doctors"
-    );
-    res.json(allDoctors.rows);
+    const query = `
+    SELECT doctor_id, first_name, last_name, specialty, email
+    FROM doctors
+    WHERE ($1::text IS NULL OR specialty = $1)
+    AND ($2::text IS NULL OR CONCAT(first_name, ' ', last_name) ILIKE '%' || $2 || '%')
+    `;
+    const result = await pool.query(query, [specialty || null, name || null]);
+    res.json(result.rows);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");

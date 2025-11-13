@@ -2,50 +2,53 @@ import React, { useState, useEffect } from "react";
 import "../CSS/PatientDashboard.css";
 import { useNavigate } from "react-router-dom"; //Assuming I will use react-router-dom for navigation
 
-// DUMMY DATA
-const DUMMY_DOCTORS = [
-  {
-    id: 7,
-    firstname: "Juan",
-    lastname: "Lonzana",
-    specialty: "OB/GYNs",
-    email: "juan.lonzana@hospital.com",
-  },
-  {
-    id: 8,
-    firstname: "Michelle",
-    lastname: "Almencion",
-    specialty: "Nephrologist",
-    email: "michelle.almencion@hospital.com",
-  },
-];
-
 function PatientDashboard() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedSpecialty, setSelectedSpecialty] = useState("");
   const [doctors, setDoctors] = useState([]);
+  const [specialties, setSpecialties] = useState([]);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    let filtered = DUMMY_DOCTORS;
-
-    if (selectedSpecialty) {
-      filtered = filtered.filter((doc) => doc.specialty === selectedSpecialty);
-    }
-
-    if (searchTerm) {
-      filtered = filtered.filter((doc) =>
-        doc.lastname.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
-    setDoctors(filtered);
-  }, [selectedSpecialty, searchTerm]);
-
-  //Navigate to schedule selection screen
   const handleBookNow = (doctorId) => {
-    //Navigate to the booking screen, passing the doctorId
     navigate(`/book/${doctorId}`);
   };
+
+  // Fetch specialties from API
+  useEffect(() => {
+    const fetchDoctors = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch(
+          `/api/doctors?specialty=${selectedSpecialty}&name=${searchTerm}`
+        ); // Fetch for all doctors
+        const data = await res.json();
+
+        // Optional: filter by name or specialty client-side
+        let filtered = data;
+
+        if (selectedSpecialty) {
+          filtered = filtered.filter(
+            (doc) => doc.specialty === selectedSpecialty
+          );
+        }
+        if (searchTerm) {
+          filtered = filtered.filter((doc) =>
+            `${doc.first_name} ${doc.last_name}`
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase())
+          );
+        }
+        setDoctors(filtered);
+      } catch (error) {
+        console.error("Error fetching doctors.", error);
+        setDoctors([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchDoctors();
+  }, [selectedSpecialty, searchTerm]);
 
   return (
     <div className="container">
@@ -72,7 +75,7 @@ function PatientDashboard() {
         }}
       >
         <option value="">All Specialty</option>
-        {/* I will put from my API the list of specialty */}
+        {/* From my API list */}
         <option value="Cardiology">Cardiology</option>
         <option value="Pediatrics">Pediatrics</option>
         <option value="Neurology">Neurology</option>
@@ -86,17 +89,17 @@ function PatientDashboard() {
       <div className="doctor-list">
         {doctors.length > 0 ? (
           doctors.map((doctor) => (
-            <div key={doctor.id} className="doctor-card">
+            <div key={doctor.doctor_id} className="doctor-card">
               <div className="doctor-info">
                 <strong>
-                  Dr. {doctor.firstname} {doctor.lastname}
+                  Dr. {doctor.first_name} {doctor.last_name}
                 </strong>{" "}
                 - <span className="doctor-specialty">{doctor.specialty}</span>
                 <p className="doctor-email">{doctor.email}</p>
               </div>
               <button
                 className="book-btn"
-                onClick={() => handleBookNow(doctor.id)}
+                onClick={() => handleBookNow(doctor.doctor_id)}
               >
                 Book Now / View Schedule
               </button>

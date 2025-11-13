@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "../CSS/PatientDashboard.css";
 import { useNavigate } from "react-router-dom"; //Assuming I will use react-router-dom for navigation
 
 // DUMMY DATA
@@ -48,7 +49,7 @@ function PatientDashboard() {
 
   return (
     <div className="container">
-      <h2>Doctor/Specialty Search</h2>
+      <h2>Doctor / Specialty Search</h2>
 
       {/* Search Bar */}
 
@@ -57,12 +58,6 @@ function PatientDashboard() {
         placeholder="Search a Doctor's Name..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        style={{
-          padding: "10px",
-          marginBottom: "15px",
-          width: "100%",
-          boxSizing: "border-box",
-        }}
       />
 
       {/* Dropdown Filter */}
@@ -85,6 +80,32 @@ function PatientDashboard() {
         <option value="Dermatology">Dermatology</option>
         <option value="Opthalmology">Opthalmology</option>
       </select>
+
+      {/* List of Doctors */}
+      <h3>Available Doctors ({doctors.length})</h3>
+      <div className="doctor-list">
+        {doctors.length > 0 ? (
+          doctors.map((doctor) => (
+            <div key={doctor.id} className="doctor-card">
+              <div className="doctor-info">
+                <strong>
+                  Dr. {doctor.firstname} {doctor.lastname}
+                </strong>{" "}
+                - <span className="doctor-specialty">{doctor.specialty}</span>
+                <p className="doctor-email">{doctor.email}</p>
+              </div>
+              <button
+                className="book-btn"
+                onClick={() => handleBookNow(doctor.id)}
+              >
+                Book Now / View Schedule
+              </button>
+            </div>
+          ))
+        ) : (
+          <p>No available Doctor.</p>
+        )}
+      </div>
     </div>
   );
 }

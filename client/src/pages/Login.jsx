@@ -22,8 +22,11 @@ const Login = () => {
   return (
     <div className="login-page">
       <div className="login-container">
-        <h1 className="login-logo">Hospital Appointment</h1>
-        <p className="login-title">Sign in to book or manage appointments</p>
+        <h1 className="login-logo">HEALTH SPHERE MEDICAL CENTER</h1>
+        <p className="login-title">
+          “Welcome to Health Sphere, where compassionate care meets medical
+          excellence.”
+        </p>
 
         <form onSubmit={handleSubmit} className="login-form">
           {error && <p className="error-message">{error}</p>}

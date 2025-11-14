@@ -1,12 +1,32 @@
 import React, { useState, useEffect } from "react";
 import "../CSS/PatientDashboard.css";
-import { useNavigate } from "react-router-dom"; //Assuming I will use react-router-dom for navigation
+import { useNavigate } from "react-router-dom";
+
+// --- START useDebounce Hook ---
+const useDebounce = (value, delay) => {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
+};
+// --- END useDebounce Hook ---
 
 function PatientDashboard() {
   const [searchTerm, setSearchTerm] = useState("");
+  // ⭐️ Performance Fix: Use the debounced value for the API call
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+
   const [selectedSpecialty, setSelectedSpecialty] = useState("");
   const [doctors, setDoctors] = useState([]);
-  const [specialties, setSpecialties] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -14,52 +34,63 @@ function PatientDashboard() {
     navigate(`/book/${doctorId}`);
   };
 
-  // Fetch specialties from API
+  // Fetch doctors whenever specialty or the DEBOUNCED term changes
   useEffect(() => {
+    // ⭐️ Stability Fix: Use AbortController for race condition cleanup
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    console.log("Fetching doctors with:", {
+      selectedSpecialty,
+      debouncedSearchTerm,
+    });
+
     const fetchDoctors = async () => {
       setLoading(true);
       try {
         const res = await fetch(
-          `/api/doctors?specialty=${selectedSpecialty}&name=${searchTerm}`
-        ); // Fetch for all doctors
+          `/api/doctors?name=${debouncedSearchTerm}&specialty=${selectedSpecialty}`,
+          { signal } // Pass the abort signal
+        );
+
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+
         const data = await res.json();
-
-        // Optional: filter by name or specialty client-side
-        let filtered = data;
-
-        if (selectedSpecialty) {
-          filtered = filtered.filter(
-            (doc) => doc.specialty === selectedSpecialty
-          );
-        }
-        if (searchTerm) {
-          filtered = filtered.filter((doc) =>
-            `${doc.first_name} ${doc.last_name}`
-              .toLowerCase()
-              .includes(searchTerm.toLowerCase())
-          );
-        }
-        setDoctors(filtered);
+        setDoctors(data);
       } catch (error) {
-        console.error("Error fetching doctors.", error);
-        setDoctors([]);
+        // Ignore the error if it was a deliberate abort
+        if (error.name !== "AbortError") {
+          console.error("Error fetching doctors.", error);
+          setDoctors([]);
+        }
       } finally {
-        setLoading(false);
+        // Only set loading to false if the request was NOT aborted
+        if (!signal.aborted) {
+          setLoading(false);
+        }
       }
     };
+
     fetchDoctors();
-  }, [selectedSpecialty, searchTerm]);
+
+    // Cleanup: Abort the request when dependencies change or component unmounts
+    return () => controller.abort();
+
+    // ⭐️ Dependency: Use the debounced value here to trigger the fetch after typing stops
+  }, [selectedSpecialty, debouncedSearchTerm]);
 
   return (
     <div className="container">
       <h2>Doctor / Specialty Search</h2>
 
       {/* Search Bar */}
-
       <input
         type="text"
         placeholder="Search a Doctor's Name..."
         value={searchTerm}
+        // NOTE: We still update searchTerm instantly for a smooth typing experience
         onChange={(e) => setSearchTerm(e.target.value)}
       />
 
@@ -75,40 +106,44 @@ function PatientDashboard() {
         }}
       >
         <option value="">All Specialty</option>
-        {/* From my API list */}
-        <option value="Cardiology">Cardiology</option>
-        <option value="Pediatrics">Pediatrics</option>
-        <option value="Neurology">Neurology</option>
-        <option value="Dentistry">Dentistry</option>
-        <option value="Dermatology">Dermatology</option>
-        <option value="Opthalmology">Opthalmology</option>
+        <option value="Cardiologist">Cardiologist</option>
+        <option value="Pediatrician">Pediatrician</option>
+        <option value="Neurologist">Neurologist</option>
+        <option value="Dentist">Dentist</option>
+        <option value="Dermatologist">Dermatologist</option>
+        <option value="Ophthalmologist">Ophthalmologist</option>
       </select>
 
       {/* List of Doctors */}
       <h3>Available Doctors ({doctors.length})</h3>
-      <div className="doctor-list">
-        {doctors.length > 0 ? (
-          doctors.map((doctor) => (
-            <div key={doctor.doctor_id} className="doctor-card">
-              <div className="doctor-info">
-                <strong>
-                  Dr. {doctor.first_name} {doctor.last_name}
-                </strong>{" "}
-                - <span className="doctor-specialty">{doctor.specialty}</span>
-                <p className="doctor-email">{doctor.email}</p>
+
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <div className="doctor-list">
+          {doctors.length > 0 ? (
+            doctors.map((doctor) => (
+              <div key={doctor.doctor_id} className="doctor-card">
+                <div className="doctor-info">
+                  <strong>
+                    Dr. {doctor.first_name} {doctor.last_name}
+                  </strong>{" "}
+                  - <span className="doctor-specialty">{doctor.specialty}</span>
+                  <p className="doctor-email">{doctor.email}</p>
+                </div>
+                <button
+                  className="book-btn"
+                  onClick={() => handleBookNow(doctor.doctor_id)}
+                >
+                  Book Now / View Schedule
+                </button>
               </div>
-              <button
-                className="book-btn"
-                onClick={() => handleBookNow(doctor.doctor_id)}
-              >
-                Book Now / View Schedule
-              </button>
-            </div>
-          ))
-        ) : (
-          <p>No available Doctor.</p>
-        )}
-      </div>
+            ))
+          ) : (
+            <p>No available Doctor.</p>
+          )}
+        </div>
+      )}
     </div>
   );
 }

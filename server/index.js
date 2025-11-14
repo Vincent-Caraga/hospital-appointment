@@ -34,18 +34,32 @@ app.get("/", (req, res) => {
 
 //A. GET ALL DOCTORS ROUTE
 app.get("/api/doctors", async (req, res) => {
-  const { specialty, name } = req.query;
+  let { name, specialty } = req.query;
+
+  //Ensure variables are either a non-empty string or null
+  const querySpecialty =
+    specialty && specialty.trim() !== "" ? specialty.trim() : null;
+  const queryName = name && name.trim() !== "" ? name.trim() : null;
+
+  console.log("Query params:", { querySpecialty, queryName });
+
   try {
     const query = `
-    SELECT doctor_id, first_name, last_name, specialty, email
-    FROM doctors
-    WHERE ($1::text IS NULL OR specialty = $1)
-    AND ($2::text IS NULL OR CONCAT(first_name, ' ', last_name) ILIKE '%' || $2 || '%')
+      SELECT doctor_id, first_name, last_name, specialty, email
+      FROM doctors
+      WHERE ($1::text IS NULL OR specialty ILIKE '%' || $1 || '%')
+      AND (
+        $2::text IS NULL OR
+        first_name ILIKE '%' || $2 || '%' OR
+        last_name ILIKE '%' || $2 || '%' OR
+        CONCAT(first_name, ' ', last_name) ILIKE '%' || $2 || '%'
+      )
     `;
-    const result = await pool.query(query, [specialty || null, name || null]);
+    const result = await pool.query(query, [querySpecialty, queryName]);
+    console.log("Doctors found:", result.rows.length);
     res.json(result.rows);
   } catch (err) {
-    console.error(err.message);
+    console.error("Error executing query:", err.message);
     res.status(500).send("Server Error");
   }
 });
@@ -72,5 +86,3 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
-
-//Last edit Oct 16 and with database connection and proceed to frontend

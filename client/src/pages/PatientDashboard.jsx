@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../CSS/PatientDashboard.css";
 import { useNavigate } from "react-router-dom";
 
-// --- START useDebounce Hook ---
+// Start useDebounce Hook
 const useDebounce = (value, delay) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
@@ -18,11 +18,11 @@ const useDebounce = (value, delay) => {
 
   return debouncedValue;
 };
-// --- END useDebounce Hook ---
+// END useDebounce Hook
 
 function PatientDashboard() {
   const [searchTerm, setSearchTerm] = useState("");
-  // ⭐️ Performance Fix: Use the debounced value for the API call
+  // Performance Fix: Use the debounced value for the API call
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
   const [selectedSpecialty, setSelectedSpecialty] = useState("");
@@ -36,7 +36,7 @@ function PatientDashboard() {
 
   // Fetch doctors whenever specialty or the DEBOUNCED term changes
   useEffect(() => {
-    // ⭐️ Stability Fix: Use AbortController for race condition cleanup
+    // Stability Fix: Use AbortController for race condition cleanup
     const controller = new AbortController();
     const signal = controller.signal;
 
@@ -78,7 +78,7 @@ function PatientDashboard() {
     // Cleanup: Abort the request when dependencies change or component unmounts
     return () => controller.abort();
 
-    // ⭐️ Dependency: Use the debounced value here to trigger the fetch after typing stops
+    // Dependency: Use the debounced value here to trigger the fetch after typing stops
   }, [selectedSpecialty, debouncedSearchTerm]);
 
   return (
@@ -90,7 +90,7 @@ function PatientDashboard() {
         type="text"
         placeholder="Search a Doctor's Name..."
         value={searchTerm}
-        // NOTE: We still update searchTerm instantly for a smooth typing experience
+        // Update searchTerm instantly for a smooth typing experience
         onChange={(e) => setSearchTerm(e.target.value)}
       />
 

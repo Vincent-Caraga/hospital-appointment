@@ -1,0 +1,45 @@
+/* Container for the entire navigation bar */
+.navbar {
+  background-color: #333; /* Dark background */
+  color: white; /* White text */
+  padding: 10px 20px; /* Vertical and horizontal padding */
+  display: flex; /* Enable flex container */
+  justify-content: space-between; /* Space out the brand and the links */
+  align-items: center; /* Vertically center items */
+}
+
+/* Style for the application brand/logo */
+.navbar-brand a {
+  color: white;
+  font-size: 1.5em; /* Larger text for the brand */
+  font-weight: bold;
+  text-decoration: none; /* Remove underline from the link */
+}
+
+/* Style for the list of navigation links */
+.navbar-links {
+  list-style: none; /* Remove bullet points */
+  margin: 0;
+  padding: 0;
+  display: flex; /* Arrange links horizontally */
+}
+
+/* Style for individual list items */
+.navbar-links li {
+  margin-left: 20px; /* Space between links */
+}
+
+/* Style for the links inside the list items */
+.navbar-links a {
+  color: white;
+  text-decoration: none; /* Remove underline */
+  padding: 8px 10px; /* Padding inside the link area */
+  display: block; /* Make the link fill the padding area */
+  transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+/* Hover effect for links */
+.navbar-links a:hover {
+  background-color: #555; /* Slightly lighter background on hover */
+  border-radius: 4px; /* Slightly rounded corners on hover */
+}

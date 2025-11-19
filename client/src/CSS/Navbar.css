@@ -1,0 +1,86 @@
+/* Navbar container */
+.navbar-container {
+  width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100px;
+  padding: 0 15px;
+  background-color: #41a67e;
+  color: white;
+}
+
+/* User info section */
+.user-info-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Patient profile image */
+.patient-profile {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white;
+}
+
+/* Greeting texts */
+.user-name-text {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.greeting-subtext {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  margin: 0;
+}
+
+/* Notification bell */
+.notification-bell {
+  width: 50px;
+  height: 50px;
+  margin-left: 40px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Bell icon inside */
+.bell-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* To larger screen */
+/* Large phone to tablet */
+@media (min-width: 425px) {
+  .notification-bell {
+    margin-left: 90px;
+  }
+}
+
+@media (min-width: 768px) {
+  .notification-bell {
+    margin-left: 420px;
+  }
+}
+
+/* Laptop and Desktop style */
+@media (min-width: 1024px) {
+  .notification-bell {
+    margin-left: 690px;
+  }
+}
+@media (min-width: 1440px) {
+  .notification-bell {
+    margin-left: 1100px;
+  }
+}

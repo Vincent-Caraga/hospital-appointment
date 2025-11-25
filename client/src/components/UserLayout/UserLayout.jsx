@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Navbar from "../Navbar/Navbar";
 import Sidebar from "../Sidebar/Sidebar";
+import PatientDashboard from "../../pages/PatientDashboard";
+import { Outlet } from "react-router-dom";
 
 const UserLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -13,9 +15,11 @@ const UserLayout = () => {
       {/* Passing it open / closed state */}
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
-      <Navbar onProfileClick={toggleSidebar} />
+      <Navbar toggleSidebar={toggleSidebar} />
 
-      <div className="main content"></div>
+      <div className="main content">
+        <Outlet />
+      </div>
     </div>
   );
 };

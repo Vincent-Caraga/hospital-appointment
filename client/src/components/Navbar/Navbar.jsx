@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import "../../CSS/Navbar.css";
 import { assets } from "../../assets/assets";
-import { Menu, X } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Menu } from "lucide-react";
 
 const Navbar = ({ toggleSidebar }) => {
   // 👈 PASS TOGGLE FUNCTION AS PROP
@@ -18,7 +17,8 @@ const Navbar = ({ toggleSidebar }) => {
       {/* 💡 MOBILE-FIRST EDIT: Add a toggle button for the sidebar */}
       <button
         className="sidebar-toggle-btn"
-        onClick={toggleSidebar} // 👈 Call the function passed from the parent
+        onClick={toggleSidebar}
+        aria-label="Toggle Navigation Menu" // 👈 Call the function passed from the parent
       >
         {/* We don't need a state here just to decide which icon to show 
                     if the component's main job is just to toggle the parent's state. 

@@ -1,31 +1,47 @@
+/* Sidebar.css (Corrected for Right-Slide) */
+
 .sidebar {
+  /* 1. Positioning */
   position: fixed;
   top: 0;
-  left: 0;
+  /* ⭐️ CHANGE 1: Anchor to the RIGHT edge of the screen */
+  right: 0;
+
   height: 100vh;
   width: 250px;
   background-color: #ffffff;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
-  z-index: 1000;
+
+  /* 2. Styling */
+  /* ⭐️ IMPORTANT: Change shadow direction to appear on the LEFT edge of the menu */
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+  z-index: -1000;
+
+  /* 3. Animation */
+  /* Keep transition based on 'transform' */
   transition: transform 0.3s ease-in-out;
+
   padding: 20px 0;
   display: flex;
   flex-direction: column;
 }
+
 /* Sidebar closed */
 .sidebar-closed {
-  transform: translateX(-100%);
+  /* ⭐️ CHANGE 2: Move off-screen to the RIGHT by its full width (250px) */
+  /* Use a POSITIVE value (100%) to push it right */
+  transform: translateX(100%);
 }
 
 /* Sidebar open */
 .sidebar-open {
+  /* Bring it back to the default position (anchored to the right) */
   transform: translateX(0);
 }
 
-/* Sidebar content styling */
+/* --- Rest of the Content Styling Remains the Same --- */
 .sidebar-header {
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start; /* Often moved to flex-start for a close button on the right slide */
   padding: 0 15px 20px 15px;
 }
 .sidebar-header button {
@@ -47,7 +63,7 @@
   text-decoration: none;
   color: #333;
   font-size: 1.1rem;
-  border-bottom: 1px solid #eee; /*Separator line*/
+  border-bottom: 1px solid #eee;
 }
 .sidebar-menu li:last-child a {
   border-bottom: none;

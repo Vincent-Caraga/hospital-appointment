@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import PatientDashboard from "./pages/PatientDashboard";
 import Navbar from "./components/Navbar/Navbar";
 import UserLayout from "./components/UserLayout/UserLayout";
+import Test from "./pages/Test";
 
 const App = () => {
   return (
@@ -17,11 +18,12 @@ const App = () => {
         {/* Set Login as the default route */}
         <Route path="/" element={<Login />} />
 
-        {/* Authenticated Routes: Wrap in the custom layout component */}
-        <Route path="/doctorsearch" element={<PatientDashboard />} />
+        {/* Authenticated Routes: Wrap in the custom layout component 
+        <Route path="/doctorsearch" element={<PatientDashboard />} /> */}
 
         <Route element={<UserLayout />}>
-          <Route path="/dashboard" element={<PatientDashboard />} />
+          <Route path="/doctorlist" element={<PatientDashboard />} />
+          <Route path="/test" element={<Test />} />
         </Route>
 
         {/* If you want the old routes to still exist for testing: */}

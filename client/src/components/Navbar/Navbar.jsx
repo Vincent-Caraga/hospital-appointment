@@ -24,7 +24,7 @@ const Navbar = ({ toggleSidebar }) => {
                     if the component's main job is just to toggle the parent's state. 
                     We'll just show the Menu icon (hamburger). 
                 */}
-        <Menu size={24} color="#000" />
+        <Menu size={25} color="#000" />
       </button>
 
       <div className="user-info-section">

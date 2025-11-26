@@ -59,6 +59,9 @@
   border-radius: 50%;
   object-fit: cover;
 }
+.sidebar-toggle-btn {
+  cursor: pointer;
+}
 
 /* To larger screen */
 /* Large phone to tablet */

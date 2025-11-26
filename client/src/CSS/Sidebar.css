@@ -6,6 +6,7 @@
   top: 0;
   /* ⭐️ CHANGE 1: Anchor to the RIGHT edge of the screen */
   right: 0;
+  left: 0;
 
   height: 100vh;
   width: 250px;
@@ -13,14 +14,13 @@
 
   /* 2. Styling */
   /* ⭐️ IMPORTANT: Change shadow direction to appear on the LEFT edge of the menu */
-  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
-  z-index: -1000;
+  box-shadow: -4px 0 12px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
 
   /* 3. Animation */
   /* Keep transition based on 'transform' */
   transition: transform 0.3s ease-in-out;
 
-  padding: 20px 0;
   display: flex;
   flex-direction: column;
 }
@@ -29,7 +29,7 @@
 .sidebar-closed {
   /* ⭐️ CHANGE 2: Move off-screen to the RIGHT by its full width (250px) */
   /* Use a POSITIVE value (100%) to push it right */
-  transform: translateX(100%);
+  transform: translateX(-100%);
 }
 
 /* Sidebar open */
@@ -37,12 +37,38 @@
   /* Bring it back to the default position (anchored to the right) */
   transform: translateX(0);
 }
+.sidebar-nav {
+  margin-left: 20px;
+  flex-grow: 1;
+  padding-top: 20px;
+}
+.sidebar-nav ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.sidebar-nav a {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  text-decoration: none;
+  color: #1f2937;
+  font-size: 1.2rem;
+  font-weight: 500;
+  transition: background-color 0.2s, color 0.2s border-right-color 0.2s;
+  border-right: 4px solid transparent;
+}
+.sidebar-nav a:hover {
+  background-color: #cbcbcb;
+  color: #1f2937;
+}
 
 /* --- Rest of the Content Styling Remains the Same --- */
 .sidebar-header {
   display: flex;
   justify-content: flex-start; /* Often moved to flex-start for a close button on the right slide */
-  padding: 0 15px 20px 15px;
+  padding: 15px 20px;
+  border-bottom: 1px solid #e5e7eb;
 }
 .sidebar-header button {
   background: none;
@@ -71,4 +97,32 @@
 .sidebar-menu li a:hover {
   background-color: #f0f0f0;
   color: #41a67e;
+}
+.sidebar-nav li.active a {
+  color: #3b82f6;
+  background-color: rgba(59, 130, 246, 0.08);
+  border-right-color: #3b82f6;
+}
+.logout-item {
+  margin-top: auto;
+  padding-top: 15px;
+  border-top: 1px solid #e5e7eb;
+}
+.logout-item a {
+  color: #ef4444;
+}
+.logout-item a:hover {
+  background-color: rgba(239, 68, 68, 0.1);
+}
+.close-btn {
+  cursor: pointer;
+  background: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #1f2937;
+  padding: 5px;
+  transition: color 0.2s;
+}
+.close-btn:hover {
+  color: #3b82f6;
 }

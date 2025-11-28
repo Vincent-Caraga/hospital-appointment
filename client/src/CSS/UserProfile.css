@@ -1,0 +1,98 @@
+.profile-form-container {
+  max-width: 100%;
+  margin: 10px auto;
+  padding: 15px;
+  background-color: #fff;
+}
+h2 {
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+.form-row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+  gap: 15px; /* Vertical space between fields */
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+/* Styling for labels */
+.form-group label {
+  font-size: 0.7rem;
+  font-weight: bold;
+  color: #555;
+  margin-bottom: 3px;
+}
+/* Styling for the input fields */
+.form-group input {
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 9px;
+  background-color: #f7f7f7;
+  font-size: 1rem;
+  color: #333;
+}
+/* Submit button */
+.form-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+.update-button {
+  background-color: #dc3545;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 9px;
+  font-size: 1rem;
+  font-weight: bold;
+  width: 100%; /* Make button full width on mobile */
+  max-width: 300px;
+  cursor: pointer;
+}
+
+/* Larger Screens */
+@media (min-width: 768px) {
+  .profile-form-container {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 20px;
+  }
+  .form-row {
+    flex-direction: row;
+    gap: 15px;
+  }
+  /* Adjust layout for different column counts (Desktop/Tablet) */
+  .three-col .form-group {
+    flex: 1 1 33.33%; /*Three equal columns */
+  }
+  .four-col .form-group {
+    flex: 1 1 25%;
+  }
+  .five-col .form-group {
+    flex: 1 1 20%;
+  }
+  /* Specific layout for the Address Row (using grid for complex ratios) */
+  .address-row {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+  }
+  .address-row .form-group:first-child {
+    grid-column: 1 / 2;
+  }
+  .address-row .form-group:last-child {
+    grid-column: 2 / 3;
+  }
+
+  /* Submit button (Desktop) */
+  .form-actions {
+    justify-content: flex-end;
+  }
+  .update-button {
+    width: auto;
+    max-width: none;
+  }
+}

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "../../CSS/UserProfile.css";
 
 const UserProfile = () => {
   //Test User Input
@@ -45,6 +46,7 @@ const UserProfile = () => {
     onChange,
     required = true,
     hint = null,
+    type = "text", // 'type' prop with default value
   }) => (
     <div className="form-group">
       <label htmlFor={name}>
@@ -52,7 +54,7 @@ const UserProfile = () => {
         {label}
       </label>
       <input
-        type="text"
+        type={type}
         id={name}
         name={name}
         value={value}
@@ -104,24 +106,97 @@ const UserProfile = () => {
           label="ZIP CODE"
           value={profileData.zipcode}
           onChange={handleChange}
+          type="text"
         />
       </div>
 
-      {/* --Row Personal Details */}
+      {/* --Row 3: Personal Details */}
       <div className="form-row five-col">
-        <InputField
-          label="SEX"
-          name="sex"
-          value={profileData.sex}
-          onChange={handleChange}
-        />
+        <div className="form-group">
+          <label htmlFor="sex">*SEX</label>
+          <select
+            id="sex"
+            name="sex"
+            value={profileData.sex}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Select...</option>
+            <option value="Male">MALE</option>
+            <option value="Female">FEMALE</option>
+            <option value="Other">OTHER</option>
+          </select>
+        </div>
+
         <InputField
           label="DATE OF BIRTH"
           name="dateOfBirth"
           value={profileData.dateOfBirth}
           onChange={handleChange}
+          type="date"
         />
-        <InputField label="PLACE OF BIRTH" />
+        <InputField
+          label="PLACE OF BIRTH"
+          name="placeOfBirth"
+          value={profileData.placeOfBirth}
+          onChange={handleChange}
+          hint="City or Municipality and Province"
+        />
+        <div className="form-group">
+          <label htmlFor="civilstatus">*CIVIL STATUS</label>
+          <select
+            id="civilstatus"
+            name="civilstatus"
+            value={profileData.civilStatus}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Select...</option>
+            <option value="Single">SINGLE</option>
+            <option value="Married">MARRIED</option>
+            <option value="Divorced">DIVORCED</option>
+            <option value="Separated">SEPARATED</option>
+            <option value="Other">OTHER</option>
+          </select>
+        </div>
+      </div>
+      {/* --Row 4: Contact Details */}
+      <div className="form-row four-col">
+        <InputField
+          label="CITIZENSHIP"
+          name="citizenship"
+          value={profileData.citizenship}
+          onChange={handleChange}
+        />
+        <InputField
+          label="TELEPHONE NO."
+          name="telephoneNo"
+          value={profileData.telephone}
+          onChange={handleChange}
+          required={false}
+          type="tel"
+        />
+        <InputField
+          label="MOBILE PHONE NO."
+          name="mobileNo"
+          value={profileData.mobileNo}
+          onChange={handleChange}
+          type="tel"
+        />
+        <InputField
+          label="EMAIL ADDRESS"
+          name="emailAddress"
+          value={profileData.emailAddress}
+          onChange={handleChange}
+          type="email"
+        />
+      </div>
+
+      {/* Submit Button */}
+      <div className="form-actions">
+        <button type="submit" className="update-button">
+          Update Profile
+        </button>
       </div>
     </form>
   );

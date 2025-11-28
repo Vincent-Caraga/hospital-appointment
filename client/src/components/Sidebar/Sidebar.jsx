@@ -22,8 +22,8 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
       </button>
       <nav className="sidebar-nav">
         <ul>
-          <li className={isActive("/profile") ? "active" : ""}>
-            <Link to="/profile" onClick={toggleSidebar}>
+          <li className={isActive("/user-profile") ? "active" : ""}>
+            <Link to="/user-profile" onClick={toggleSidebar}>
               Profile
             </Link>
           </li>

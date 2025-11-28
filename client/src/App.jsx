@@ -7,6 +7,7 @@ import Navbar from "./components/Navbar/Navbar";
 import UserLayout from "./components/UserLayout/UserLayout";
 import Test from "./pages/Test";
 import Dashboard from "./pages/Dashboard";
+import UserProfile from "./components/UserProfile/UserProfile";
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
           <Route path="/doctorlist" element={<PatientDashboard />} />
           <Route path="/test" element={<Test />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/user-profile" element={<UserProfile />} />
         </Route>
 
         {/* If you want the old routes to still exist for testing: */}

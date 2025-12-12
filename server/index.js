@@ -81,6 +81,37 @@ app.post("/api/appointments", async (req, res) => {
   }
 });
 
+//C. UPDATE USER PROFILE
+app.put("api/profile/:id", async (req, res) => {
+  //Get the user ID from the URL parameter
+  const { patient_id } = req.params;
+
+  //Destructure the data sent from the React from (req.body)
+  const {
+    lastname,
+    firstname,
+    middlename,
+    address,
+    zipcode,
+    sex,
+    dateOfBirth,
+    placeOfBirth,
+    civilStatus,
+    citizenship,
+    telephone,
+    mobileNo,
+    emailAddress,
+  } = req.body;
+
+  //Convert date format for PostgreSQL
+  let dbDateOfBirth = null;
+  if (dateOfBirth) {
+    //Simple conversion of date format to YYYY-MM-DD
+    const parts = dateOfBirth.split("/");
+    dbDateOfBirth = parts.length === 3 ? ``
+  }
+});
+
 //START SERVER
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

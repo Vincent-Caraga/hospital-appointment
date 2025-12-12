@@ -34,8 +34,34 @@ const UserProfile = () => {
     e.preventDefault();
 
     // API Integration
-    console.log("Updating Profile:", profileData);
-    alert("Profile Updated Successfully");
+    // The URL of API endpoint to update the user profile
+    const apiUrl = "http://localhost:5000/api/profile/update";
+
+    try {
+      const response = fetch(apiUrl, {
+        // Use  PUT for updating resource
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(profileData), // Convert the JavaScript object to a JSON string
+      });
+
+      if (!response.ok) {
+        // The update was successful
+        const result = response.json(); // Get the response body from the server
+        console.log("Profile Updated Successfully:", result);
+        alert("Profile Updated Successfully!");
+      } else {
+        //The server responded with an error status
+        const errorData = response.json();
+        console.error("Profile Update Failed:", errorData);
+        alert(`Profile Update Failed: ${errorData.message || "Server Error"}`);
+      }
+    } catch (error) {
+      console.error("Network Error during Profile Update:", error);
+      alert("A new network occured. Please try again.");
+    }
   };
 
   // Helper component for a single input field
@@ -143,10 +169,10 @@ const UserProfile = () => {
           hint="City or Municipality and Province"
         />
         <div className="form-group">
-          <label htmlFor="civilstatus">*CIVIL STATUS</label>
+          <label htmlFor="sex">*CIVIL STATUS</label>
           <select
-            id="civilstatus"
-            name="civilstatus"
+            id="civilStatus"
+            name="civilStatus"
             value={profileData.civilStatus}
             onChange={handleChange}
             required

@@ -72,7 +72,7 @@ app.post("/api/appointments", async (req, res) => {
 
     const newAppointment = await pool.query(
       "INSERT INTO appointments (patient_id, doctor_id, appointment_date, reason) VALUES ($1, $2, $3, $4) RETURNING *",
-      [patient_id, doctor_id, appointment_date, reason]
+      [patient_id, doctor_id, appointment_date, reason],
     );
     res.json(newAppointment.rows[0]);
   } catch (err) {
@@ -108,7 +108,33 @@ app.put("api/profile/:id", async (req, res) => {
   if (dateOfBirth) {
     //Simple conversion of date format to YYYY-MM-DD
     const parts = dateOfBirth.split("/");
-    dbDateOfBirth = parts.length === 3 ? ``
+    dbDateOfBirth =
+      parts.length === 3 ? `${parts[2]}-${parts[0]}-${parts[1]}` : dateOfBirth;
+  }
+
+  try{
+    const updateQuery = `
+    UPDATE users
+    SET
+      lastname = $1,
+      firstname = $2,
+      middlename = $3,
+      address = $4,
+      zipcode = $5,
+      sex = $6,
+      date_of_birth = $7,
+      place_of_birth = $8,
+      civil_status = $9,
+      citizenship = $10,
+      telephone = $11,
+      mobile_no = $12,
+      email_address = $13
+    WHERE user_id = $14
+    RETURNING *;
+    `;
+   const values = [
+    
+   ]
   }
 });
 

@@ -82,9 +82,9 @@ app.post("/api/appointments", async (req, res) => {
 });
 
 //C. UPDATE USER PROFILE
-app.put("api/profile/:id", async (req, res) => {
+app.put("/api/profile/:id", async (req, res) => {
   //Get the user ID from the URL parameter
-  const { patient_id } = req.params;
+  const { id } = req.params;
 
   //Destructure the data sent from the React from (req.body)
   const {
@@ -112,9 +112,9 @@ app.put("api/profile/:id", async (req, res) => {
       parts.length === 3 ? `${parts[2]}-${parts[0]}-${parts[1]}` : dateOfBirth;
   }
 
-  try{
+  try {
     const updateQuery = `
-    UPDATE users
+    UPDATE patients
     SET
       lastname = $1,
       firstname = $2,
@@ -129,12 +129,40 @@ app.put("api/profile/:id", async (req, res) => {
       telephone = $11,
       mobile_no = $12,
       email_address = $13
-    WHERE user_id = $14
+    WHERE patient_id = $14
     RETURNING *;
     `;
-   const values = [
-    
-   ]
+    const values = [
+      lastname,
+      firstname,
+      middlename,
+      address,
+      zipcode,
+      sex,
+      dbDateOfBirth,
+      placeOfBirth,
+      civilStatus,
+      citizenship,
+      telephone,
+      mobileNo,
+      emailAddress,
+      id, // The user_id goes last
+    ];
+
+    const result = await pool.query(updateQuery, values);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    console.log("Profile updated for user ID:", id);
+    res.json({
+      message: "Profile updated successfully",
+      user: result.rows[0],
+    });
+  } catch (err) {
+    console.error("Error updating profile:", err.message);
+    res.status(500).send("Failed to update profile");
   }
 });
 

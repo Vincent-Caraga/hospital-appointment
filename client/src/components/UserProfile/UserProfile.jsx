@@ -11,7 +11,7 @@ const UserProfile = () => {
       "BLOCK 5 LOT, PHASE 9, BENEVENTO ST. LESSANDRA, SALINAS 1, BACOOR CITY, CAVITE",
     zipcode: "4102",
     sex: "Male",
-    dateOfBirth: "03/23/1998",
+    dateOfBirth: "1998-03-23",
     placeOfBirth: "BACOOR, CAVITE",
     civilStatus: "SINGLE",
     citizenship: "FILIPINO",
@@ -30,15 +30,20 @@ const UserProfile = () => {
   };
 
   // Function to handle form submission (Update profile)
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    //Replace the placeholder with the actual logged-in user's ID
+    const userId = 1;
 
     // API Integration
     // The URL of API endpoint to update the user profile
-    const apiUrl = "http://localhost:5000/api/profile/update";
+    const apiUrl = `http://localhost:5000/api/profile/${userId}`;
+
+    const dataToSend = profileData;
 
     try {
-      const response = fetch(apiUrl, {
+      const response = await fetch(apiUrl, {
         // Use  PUT for updating resource
         method: "PUT",
         headers: {
@@ -47,14 +52,14 @@ const UserProfile = () => {
         body: JSON.stringify(profileData), // Convert the JavaScript object to a JSON string
       });
 
-      if (!response.ok) {
+      if (response.ok) {
         // The update was successful
-        const result = response.json(); // Get the response body from the server
+        const result = await response.json(); // Get the response body from the server
         console.log("Profile Updated Successfully:", result);
         alert("Profile Updated Successfully!");
       } else {
         //The server responded with an error status
-        const errorData = response.json();
+        const errorData = await response.json();
         console.error("Profile Update Failed:", errorData);
         alert(`Profile Update Failed: ${errorData.message || "Server Error"}`);
       }
@@ -130,6 +135,7 @@ const UserProfile = () => {
         />
         <InputField
           label="ZIP CODE"
+          name="zipcode"
           value={profileData.zipcode}
           onChange={handleChange}
           type="text"
@@ -169,7 +175,7 @@ const UserProfile = () => {
           hint="City or Municipality and Province"
         />
         <div className="form-group">
-          <label htmlFor="sex">*CIVIL STATUS</label>
+          <label htmlFor="civilstatus">*CIVIL STATUS</label>
           <select
             id="civilStatus"
             name="civilStatus"

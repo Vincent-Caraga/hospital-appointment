@@ -25,7 +25,8 @@ const App = () => {
 
         <Route element={<UserLayout />}>
           <Route path="/doctorlist" element={<PatientDashboard />} />
-          <Route path="/test" element={<Test />} />
+          {/* :doctorId a variable for selecting a doctor to have an appointment*/}
+          <Route path="/test/" element={<Test />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/user-profile" element={<UserProfile />} />
         </Route>

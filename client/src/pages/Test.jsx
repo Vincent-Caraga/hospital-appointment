@@ -54,7 +54,7 @@ const Test = () => {
           <div className="header-blue">
             <p className="title">Appointment Schedule</p>
             <div className="month-row">
-              {[2, 3].map((mIndex) => (
+              {[2, 3, 4].map((mIndex) => (
                 <span
                   key={mIndex}
                   className={month === mIndex ? "m-tab active" : "m-tab"}
@@ -78,14 +78,41 @@ const Test = () => {
               {calendarGrid.map((day, index) => (
                 <div
                   key={index}
-                  className={`date-cell ${day === null ? "empty" : ""} ${day === selected ? "active-day" : ""}`}
-                  onClick={() => day && setSelectedTime(day)}
+                  className={`date-cell ${day === null ? "empty" : ""} ${day === selectedDate ? "active-day" : ""}`}
+                  onClick={() => day && setSelectedDate(day)}
                 >
                   {day}
                 </div>
               ))}
             </div>
           </div>
+
+          {/*Time Selection*/}
+          <div className="time-selection">
+            <p className="select-text">Select available time</p>
+            <div className="time-grid">
+              {[
+                "08:30 am",
+                "09:30 am",
+                "10:30 am",
+                "11:30 am",
+                "01:30 pm",
+                "02:30 pm",
+                "03:30 pm",
+                "04:30 pm",
+                "05:30 pm",
+              ].map((time) => (
+                <button
+                  key={time}
+                  className={selectedTime === time ? "t-btn-active" : "t-btn"}
+                  onClick={() => setSelectedTime(time)}
+                >
+                  {time}
+                </button>
+              ))}
+            </div>
+          </div>
+          <button className="appointment-btn">Schedule an Appointment</button>
         </div>
       </div>
     </>

@@ -66,25 +66,19 @@
   background: #edf2f7;
 }
 /*Active Date State*/
+.today-active {
+  background-color: gray;
+  color: white;
+  font-weight: 800;
+  border-radius: 50%;
+}
 .date-cell.active-day {
-  background: #4a90e2;
-  color: white !important;
+  background-color: #4a90e2;
+  color: white;
   font-weight: 800;
   border-radius: 50%;
   box-shadow: 0 8px 15px rgba(74, 144, 226, 0.4);
   transform: scale(1.05);
-}
-.today-active {
-  background-color: gray !important;
-  color: black !important;
-}
-.active-day {
-  background-color: #4a90e2 !important;
-  color: white !important;
-  font-weight: bold;
-  border-radius: 50%;
-  box-shadow: 0 8px 15px rgba(74, 144, 226, 0.4);
-  transform: scale(1.1);
 }
 
 .time-grid {

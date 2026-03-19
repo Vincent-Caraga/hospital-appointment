@@ -5,8 +5,12 @@ import "../CSS/Test.css";
 const Test = () => {
   //Get the current date as starting point
   const today = new Date();
+  const currentDay = today.getDate();
+  const currentMonth = today.getMonth();
+  const currentYear = today.getFullYear();
+
   const [viewDate, setViewDate] = useState(new Date(2026, 2, 1)); //Default: March 2026
-  const [selectedDate, setSelectedDate] = useState(20);
+  const [selectedDate, setSelectedDate] = useState(new Date().getDate());
   const [selectedTime, setSelectedTime] = useState(null);
 
   //Functions for Calendar Math
@@ -73,17 +77,28 @@ const Test = () => {
                 <span key={d}>{d}</span>
               ))}
             </div>
-
             <div className="dates-grid">
-              {calendarGrid.map((day, index) => (
-                <div
-                  key={index}
-                  className={`date-cell ${day === null ? "empty" : ""} ${day === selectedDate ? "active-day" : ""}`}
-                  onClick={() => day && setSelectedDate(day)}
-                >
-                  {day}
-                </div>
-              ))}
+              {calendarGrid.map((day, index) => {
+                //Highlighting the current date
+                const isToday =
+                  day === currentDay &&
+                  month === currentMonth &&
+                  year === currentYear;
+                const isSelected = day === selectedDate;
+
+                return (
+                  <div
+                    key={index}
+                    className={`date-cell 
+                    ${day === null ? "empty" : ""} 
+                    ${isToday ? "today-active" : ""} 
+                    ${isSelected ? "active-day" : ""}`}
+                    onClick={() => day && setSelectedDate(day)}
+                  >
+                    {day}
+                  </div>
+                );
+              })}
             </div>
           </div>
 

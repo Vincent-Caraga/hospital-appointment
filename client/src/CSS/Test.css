@@ -7,10 +7,12 @@
 }
 .appointment-card {
   background: white;
-  width: 360px;
-  border-radius: 45px;
-  box-shadow: 0 25px 50px -12px rgba (0, 0, 0, 0.15);
+  width: 92%;
+  max-width: 400px;
+  border-radius: 40px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
   overflow: hidden;
+  margin: 20px auto;
 }
 .header-blue {
   background: linear-gradient(135deg, #4a90e2, #50a7c2);
@@ -34,7 +36,7 @@
   border-bottom: 4px solid white;
 }
 .calendar-section {
-  padding: 25px;
+  padding: 25px 30px;
 }
 .days-label {
   display: grid;
@@ -48,7 +50,7 @@
 .dates-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 8px;
+  gap: 12px;
 }
 .date-cell {
   height: 40px;
@@ -66,12 +68,25 @@
 /*Active Date State*/
 .date-cell.active-day {
   background: #4a90e2;
-  color: white;
+  color: white !important;
+  font-weight: 800;
+  border-radius: 50%;
+  box-shadow: 0 8px 15px rgba(74, 144, 226, 0.4);
+  transform: scale(1.05);
+}
+.today-active {
+  background-color: gray !important;
+  color: black !important;
+}
+.active-day {
+  background-color: #4a90e2 !important;
+  color: white !important;
   font-weight: bold;
-  border-radius: 25%;
+  border-radius: 50%;
   box-shadow: 0 8px 15px rgba(74, 144, 226, 0.4);
   transform: scale(1.1);
 }
+
 .time-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -83,7 +98,7 @@
   border: 1px solid #e2e8f0;
   background: white;
   border-radius: 15px;
-  font-size: 0.75rem;
+  font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
   transition: 0.3s;
@@ -108,4 +123,22 @@
   font-size: 1.1rem;
   cursor: pointer;
   box-shadow: 0 10px 20px rgba(74, 144, 226, 0.2);
+}
+
+/*Tablet and Desktop Optimization*/
+@media (min-width: 768px) {
+  .test-page {
+    padding-top: 60px 0;
+  }
+  .appointment-card {
+    max-width: 420px;
+  }
+  .time-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (min-width: 1024px) {
+  .appointment-card {
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.12);
+  }
 }

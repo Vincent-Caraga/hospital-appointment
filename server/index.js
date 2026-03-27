@@ -32,6 +32,40 @@ app.get("/", (req, res) => {
   res.send("Server is running! Ready for appointments.");
 });
 
+// User Registration (hash password)
+const bcrypt = require("bcryptjs");
+let users = []; //temporary in-memory storage
+
+app.post("/register", async (req, res) => {
+  const { username, password } = req.body;
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  users.push({ username, password: hashedPassword });
+  res.json({ message: "User registered successfully" });
+});
+
+// Login (generate JWT)
+const jwt = require("jsonwebtoken");
+const SECRET_KEY = "mysecretkey"; // have owned copy in .env file
+
+app.post("/login", async (req, res) => {
+  const { username, password } = req.body;
+  const user = users.find((u) => u.username === username);
+
+  if (!user) {
+    return res.status(400).json({ message: "User not found" });
+  }
+
+  const isMatch = await bcrypt.compare(password, user.password);
+
+  if (!isMatch) {
+    return res.status(400).json({ message: "Invalid password" });
+  }
+
+  const token = jwt.sign({ username }, SECRET_KEY, { expiresIn: "1h" });
+  res.json({ token });
+});
+
 //A. GET ALL DOCTORS ROUTE
 app.get("/api/doctors", async (req, res) => {
   let { name, specialty } = req.query;

@@ -22,31 +22,9 @@ pool.query("SELECT NOW()", (err, res) => {
     console.log("Database connected:", res.rows[0].now);
   }
 });
-
-//MIDDLEWARE
-app.use(cors());
-app.use(express.json()); //Allows server to read JSON data from the client side
-
-//Test Route
-app.get("/", (req, res) => {
-  res.send("Server is running! Ready for appointments.");
-});
-
-// User Registration (hash password)
-const bcrypt = require("bcryptjs");
-let users = []; //temporary in-memory storage
-
-app.post("/register", async (req, res) => {
-  const { username, password } = req.body;
-  const hashedPassword = await bcrypt.hash(password, 10);
-
-  users.push({ username, password: hashedPassword });
-  res.json({ message: "User registered successfully" });
-});
-
 // Login (generate JWT)
 const jwt = require("jsonwebtoken");
-const SECRET_KEY = "mysecretkey"; // have owned copy in .env file
+const SECRET_KEY = process.env.JWT_SECRET;
 
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
@@ -64,6 +42,64 @@ app.post("/login", async (req, res) => {
 
   const token = jwt.sign({ username }, SECRET_KEY, { expiresIn: "1h" });
   res.json({ token });
+});
+
+//MIDDLEWARE
+app.use(cors());
+app.use(express.json()); //Allows server to read JSON data from the client side
+
+// Middleware to check the JWT
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1]; // "Bearer <token>"
+
+  if (!token) {
+    return res.sendStatus(401);
+  }
+
+  jwt.verify(token, SECRET_KEY, (err, user) => {
+    if (err) return res.status(403).json({ error: "Invalid or expired token" });
+    req.user = user; //attach user info for request
+    next();
+  });
+}
+
+//Test Route
+app.get("/", (req, res) => {
+  res.send("Server is running! Ready for appointments.");
+});
+
+// Protected Routes
+app.get("/patients", authenticateToken, (req, res) => {
+  res.json({ message: "List of patients", user: req.user });
+});
+
+app.post("/appointments", authenticateToken, (req, res) => {
+  res.json({ message: "Appointment created", user: req.user });
+});
+
+// User Registration (hash password)
+const bcrypt = require("bcryptjs");
+
+app.post("/api/register", async (req, res) => {
+  const { username, firstname, lastname, birthdate, email, password } =
+    req.body;
+
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const result = await pool.query(
+      `INSERT INTO users (username, first_name, last_name, birthdate, email, password_hash, role, created_at, updated_at)
+      VALUES ($1, $2, $3, $4, $5, $6, 'patient', NOW(), NOW())
+      RETURNING user_id, username, first_name, last_name, email, role`,
+      [username, firstname, lastname, birthdate, email, hashedPassword],
+    );
+
+    res.json({ message: "User registered successfully", user: result.rows[0] });
+  } catch (err) {
+    console.error("Error registering user:", err.message);
+    res.status(500).json({ error: "Registration failed" });
+  }
 });
 
 //A. GET ALL DOCTORS ROUTE

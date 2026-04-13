@@ -26,22 +26,35 @@ pool.query("SELECT NOW()", (err, res) => {
 const jwt = require("jsonwebtoken");
 const SECRET_KEY = process.env.JWT_SECRET;
 
-app.post("/login", async (req, res) => {
+app.post("/api/login", async (req, res) => {
   const { username, password } = req.body;
-  const user = users.find((u) => u.username === username);
 
-  if (!user) {
-    return res.status(400).json({ message: "User not found" });
+  try {
+    const result = await pool.query(
+      "SELECT * FROM users WHERE username = $1 OR email = $1",
+      [username],
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(400).json({ message: "User not found" });
+    }
+    const user = result.rows[0];
+    const isMatch = await bcrypt.compare(password, user.password_hash);
+
+    if (!isMatch) {
+      return res.status(400).json({ message: "Invalid password" });
+    }
+
+    const token = jwt.sign(
+      { id: user.user_id, username: user.username, role: user.role },
+      SECRET_KEY,
+      { expiresIn: "1h" },
+    );
+    res.json({ token });
+  } catch (err) {
+    console.error("Login error:", err.message);
+    res.status(500).json({ error: "Login failed" });
   }
-
-  const isMatch = await bcrypt.compare(password, user.password);
-
-  if (!isMatch) {
-    return res.status(400).json({ message: "Invalid password" });
-  }
-
-  const token = jwt.sign({ username }, SECRET_KEY, { expiresIn: "1h" });
-  res.json({ token });
 });
 
 //MIDDLEWARE

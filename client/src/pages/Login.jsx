@@ -1,21 +1,37 @@
 import React, { useState } from "react";
 import "../CSS/Login.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Type } from "lucide-react";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError(""); //Clear previous errors
 
-    // Backend API call
-    if (email === "m.santos@hospital.com" && password === "password123") {
-      console.log("Login successful!");
-    } else {
-      setError("Invalid email or password.");
+    try {
+      const res = await fetch("http://localhost:5000/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("userId", data.userId);
+        localStorage.setItem("firstname", data.firstname);
+        localStorage.setItem("lastname", data.lastname);
+        navigate("/dashboard");
+      } else {
+        setError(data.error || "Login failed");
+      }
+    } catch {
+      setError("Server error. Please try again later.");
     }
   };
 

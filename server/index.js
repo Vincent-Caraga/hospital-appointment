@@ -1,8 +1,15 @@
 const express = require("express");
 const cors = require("cors");
-const app = express();
 const { Pool } = require("pg"); // Import Pool from pg
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const { use } = require("react");
 require("dotenv").config(); //Load environent variables from .env files
+
+const app = express();
+//MIDDLEWARE
+app.use(cors());
+app.use(express.json()); //Allows server to read JSON data from the client side
 
 //Database Configuration (POSTGRESQL)
 // Connection Logic
@@ -14,6 +21,8 @@ const pool = new Pool({
   port: process.env.PGPORT,
 });
 
+const SECRET_KEY = process.env.JWT_SECRET;
+
 // Test query
 pool.query("SELECT NOW()", (err, res) => {
   if (err) {
@@ -23,17 +32,14 @@ pool.query("SELECT NOW()", (err, res) => {
   }
 });
 // Login (generate JWT)
-const jwt = require("jsonwebtoken");
-const SECRET_KEY = process.env.JWT_SECRET;
 
 app.post("/api/login", async (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
 
   try {
-    const result = await pool.query(
-      "SELECT * FROM users WHERE username = $1 OR email = $1",
-      [username],
-    );
+    const result = await pool.query("SELECT * FROM users WHERE email = $1", [
+      email,
+    ]);
 
     if (result.rows.length === 0) {
       return res.status(400).json({ message: "User not found" });
@@ -50,16 +56,17 @@ app.post("/api/login", async (req, res) => {
       SECRET_KEY,
       { expiresIn: "1h" },
     );
-    res.json({ token });
+    res.json({
+      token,
+      userId: user.user_id,
+      firstname: user.first_name,
+      lastname: user.last_name,
+    });
   } catch (err) {
     console.error("Login error:", err.message);
     res.status(500).json({ error: "Login failed" });
   }
 });
-
-//MIDDLEWARE
-app.use(cors());
-app.use(express.json()); //Allows server to read JSON data from the client side
 
 // Middleware to check the JWT
 function authenticateToken(req, res, next) {
@@ -92,7 +99,6 @@ app.post("/appointments", authenticateToken, (req, res) => {
 });
 
 // User Registration (hash password)
-const bcrypt = require("bcryptjs");
 
 app.post("/api/register", async (req, res) => {
   const { username, firstname, lastname, birthdate, email, password } =

@@ -1,26 +1,20 @@
 import React, { useState } from "react";
 import "../../CSS/UserProfile.css";
+import { useEffect } from "react";
 
 const UserProfile = () => {
-  //Test User Input
-  const [profileData, setProfileData] = useState({
-    lastname: "CARAGA",
-    firstname: "VINCENT",
-    middlename: "CABREJAS",
-    address:
-      "BLOCK 5 LOT, PHASE 9, BENEVENTO ST. LESSANDRA, SALINAS 1, BACOOR CITY, CAVITE",
-    zipcode: "4102",
-    sex: "Male",
-    dateOfBirth: "1998-03-23",
-    placeOfBirth: "BACOOR, CAVITE",
-    civilStatus: "SINGLE",
-    citizenship: "FILIPINO",
-    telephone: "",
-    mobileNo: "09392283694",
-    emailAddress: "vincentccaraga@gmail.com",
-  });
+  const [profileData, setProfileData] = useState({});
+  const userId = localStorage.getItem("userId");
 
-  // Function to handle changes in input fields
+  useEffect(() => {
+    fetch(`http://localhost:5000/api/profile/${userId}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    })
+      .then((res) => res.json())
+      .then((data) => setProfileData(data));
+  }, [userId]);
+
+  //HandleChange to function the form inputs
   const handleChange = (e) => {
     const { name, value } = e.target;
     setProfileData((prevData) => ({
@@ -33,14 +27,9 @@ const UserProfile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    //Replace the placeholder with the actual logged-in user's ID
-    const userId = 1;
-
     // API Integration
     // The URL of API endpoint to update the user profile
     const apiUrl = `http://localhost:5000/api/profile/${userId}`;
-
-    const dataToSend = profileData;
 
     try {
       const response = await fetch(apiUrl, {
@@ -48,6 +37,7 @@ const UserProfile = () => {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify(profileData), // Convert the JavaScript object to a JSON string
       });
@@ -88,7 +78,7 @@ const UserProfile = () => {
         type={type}
         id={name}
         name={name}
-        value={value}
+        value={value || ""}
         onChange={onChange}
         required={required}
       />

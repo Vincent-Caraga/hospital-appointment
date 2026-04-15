@@ -2,11 +2,10 @@
   "name": "server",
   "version": "1.0.0",
   "private": true,
-  "proxy": "http://localhost:5000",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js" 
+    "dev": "nodemon index.js"
   },
   "keywords": [],
   "author": "",

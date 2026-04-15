@@ -7,7 +7,14 @@ require("dotenv").config(); //Load environent variables from .env files
 
 const app = express();
 //MIDDLEWARE
-app.use(cors());
+// Palitan ang app.use(cors()) nito:
+app.use(
+  cors({
+    origin: "*", // allowing all websites
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  }),
+);
 app.use(express.json()); //Allows server to read JSON data from the client side
 
 //Database Configuration (POSTGRESQL)

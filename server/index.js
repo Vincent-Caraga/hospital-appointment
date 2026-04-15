@@ -16,9 +16,9 @@ app.use(express.json()); //Allows server to read JSON data from the client side
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: process.env.DATABASE_URL.includes("supabase.com")
-    ? { rejectUnauthorized: false }
-    : false,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
 
 const SECRET_KEY = process.env.JWT_SECRET;

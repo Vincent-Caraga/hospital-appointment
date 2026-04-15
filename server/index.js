@@ -3,7 +3,6 @@ const cors = require("cors");
 const { Pool } = require("pg"); // Import Pool from pg
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { use } = require("react");
 require("dotenv").config(); //Load environent variables from .env files
 
 const app = express();
@@ -20,6 +19,7 @@ const pool = new Pool({
     rejectUnauthorized: false,
   },
 });
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 const SECRET_KEY = process.env.JWT_SECRET;
 

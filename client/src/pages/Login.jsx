@@ -31,7 +31,7 @@ const Login = () => {
         localStorage.setItem("lastname", data.lastname);
         navigate("/dashboard");
       } else {
-        setError(data.error || "Login failed");
+        setError(data.message || "Login failed");
       }
     } catch {
       setError("Server error. Please try again later.");

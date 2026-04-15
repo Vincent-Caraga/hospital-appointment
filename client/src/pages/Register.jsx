@@ -31,18 +31,21 @@ const Register = () => {
     }
 
     try {
-      const res = await fetch("http://localhost:5000/api/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username: formData.username,
-          firstname: formData.firstname,
-          lastname: formData.lastname,
-          birthdate: formData.birthdate,
-          email: formData.email,
-          password: formData.password,
-        }),
-      });
+      const res = await fetch(
+        "https://health-sphere-1gb1.onrender.com/api/register",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            username: formData.username,
+            firstname: formData.firstname,
+            lastname: formData.lastname,
+            birthdate: formData.birthdate,
+            email: formData.email,
+            password: formData.password,
+          }),
+        },
+      );
 
       const data = await res.json();
 
@@ -58,7 +61,7 @@ const Register = () => {
           confirmPassword: "",
         });
       } else {
-        setMessage(data.error || "Something went wrong.");
+        setMessage(data.message || "Something went wrong.");
       }
     } catch (error) {
       console.error(error);

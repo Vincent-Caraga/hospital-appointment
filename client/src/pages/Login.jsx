@@ -14,11 +14,14 @@ const Login = () => {
     setError(""); //Clear previous errors
 
     try {
-      const res = await fetch("http://localhost:5000/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
+      const res = await fetch(
+        "https://health-sphere-1gb1.onrender.com/api/login",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        },
+      );
 
       const data = await res.json();
       if (res.ok) {

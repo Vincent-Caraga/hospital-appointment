@@ -49,8 +49,8 @@ function PatientDashboard() {
       setLoading(true);
       try {
         const res = await fetch(
-          `/api/doctors?name=${debouncedSearchTerm}&specialty=${selectedSpecialty}`,
-          { signal } // Pass the abort signal
+          `https://health-sphere-1gb1.onrender.com/api/doctors?name=${debouncedSearchTerm}&specialty=${selectedSpecialty}`,
+          { signal }, // Pass the abort signal
         );
 
         if (!res.ok) {

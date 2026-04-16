@@ -1,4 +1,4 @@
-/* Mobile styles */
+/* Mobile styles (Default) */
 .login-page {
   display: flex;
   justify-content: center;
@@ -6,50 +6,92 @@
   min-height: 100vh;
   background-color: #67c090;
   font-family: Arial, sans-serif;
-  padding: 15px; /* Smaller padding for mobile */
+  padding: 15px;
 }
+
 .login-container {
   background-color: #ffffff;
-  padding: 30px 20px; /* Mobile-optimized padding */
+  padding: 30px 20px;
   border-radius: 12px;
   width: 100%;
-  max-width: 100%; /* Full width on mobile */
+  max-width: 100%;
   text-align: center;
+  box-sizing: border-box;
 }
+
 .login-logo {
   color: #6c757d;
   margin-bottom: 5px;
-  font-size: 1.5rem; /* Smaller font size for mobile */
+  font-size: 1.5rem;
+  font-weight: bold;
 }
+
 .login-title {
   color: #6c757d;
   margin-bottom: 25px;
   font-size: 0.9rem;
+  line-height: 1.4;
 }
+
 /* Form Grouping and Inputs */
 .form-group {
   margin-bottom: 20px;
   text-align: left;
 }
+
 .form-group label {
   display: block;
   margin-bottom: 8px;
   font-weight: bold;
   color: #343a40;
 }
+
 .form-group input {
   width: 100%;
   padding: 12px 15px;
   border: 1px solid #ced4da;
   border-radius: 8px;
-  box-sizing: border-box;
+  box-sizing: border-box; /* Pre-emptive fix para hindi lumampas */
   transition: border-color 0.3s;
+  font-size: 1rem;
 }
+
 .form-group input:focus {
   border-color: #007bff;
   outline: none;
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
+
+/* Password Visibility Toggle Fix */
+.password-wrapper {
+  position: relative;
+  width: 103%;
+}
+
+.password-input {
+  padding-right: 45px !important; /* Space para sa mata icon */
+}
+
+.toggle-password {
+  position: absolute;
+  right: 20px;
+  top: 40%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #6c757d;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toggle-password:hover {
+  color: #343a40;
+}
+
+/* Buttons and Links */
 .login-button {
   width: 100%;
   padding: 12px;
@@ -58,26 +100,51 @@
   border: none;
   border-radius: 8px;
   font-size: 1rem;
+  font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s;
+  margin-top: 10px;
   margin-bottom: 10px;
 }
+
+.login-button:hover {
+  background-color: #0056b3;
+}
+
+.error-message {
+  color: #dc3545;
+  background-color: #f8d7da;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  font-size: 0.85rem;
+}
+
 .login-links {
   display: flex;
   justify-content: space-between;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: #6c757d;
-  margin-top: 10px;
+  margin-top: 15px;
+}
+
+.login-links a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.login-links a:hover {
+  text-decoration: underline;
 }
 
 /* Desktop styles */
 @media (min-width: 500px) {
   .login-container {
-    padding: 40px; /* Restore desktop padding */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Add shadow for desktop */
-    max-width: 400px; /* Constrain width on desktop */
+    padding: 40px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 420px;
   }
   .login-logo {
-    font-size: 1.8rem; /* Larger font size for desktop */
+    font-size: 1.8rem;
   }
 }

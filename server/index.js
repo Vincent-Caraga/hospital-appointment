@@ -12,7 +12,6 @@ app.use(
   cors({
     origin: "https://hospital-sphere.vercel.app", // allowing all websites
     methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
   }),
 );
 app.use(express.json()); //Allows server to read JSON data from the client side

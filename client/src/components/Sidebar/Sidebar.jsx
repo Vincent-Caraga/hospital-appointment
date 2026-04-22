@@ -14,7 +14,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
     e.preventDefault();
     localStorage.clear(); //Clear all data from localStorage
     toggleSidebar(); //Close the sidebar (if mobile)
-    navigate("/"); //Redirect to login page and avoid history entry
+    navigate("/", { replace: true }); //Redirect to login page and avoid history entry
   };
 
   return (

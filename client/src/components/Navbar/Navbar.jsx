@@ -9,16 +9,12 @@ const Navbar = ({ toggleSidebar }) => {
 
   return (
     <div className="navbar-container">
-      {/* 💡 MOBILE-FIRST EDIT: Add a toggle button for the sidebar */}
       <button
         className="sidebar-toggle-btn"
         onClick={toggleSidebar}
-        aria-label="Toggle Navigation Menu" // 👈 Call the function passed from the parent
+        aria-label="Toggle Navigation Menu" 
       >
-        {/* We don't need a state here just to decide which icon to show 
-                    if the component's main job is just to toggle the parent's state. 
-                    We'll just show the Menu icon (hamburger). 
-                */}
+        
         <Menu size={25} color="#000" />
       </button>
 
@@ -30,7 +26,7 @@ const Navbar = ({ toggleSidebar }) => {
         />
         <div className="greeting-text">
           <p className="user-name-text">
-            Hello {firstname || "Guest"} {lastname || ""}!
+            Hello, {firstname || "Guest"} {lastname || ""}!
           </p>
           <p className="greeting-subtext">How are you today?</p>
         </div>

@@ -1,17 +1,22 @@
-// Sidebar.js (Corrected)
-
 import React from "react";
-import { X } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
+import { X, LogOut } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "../../CSS/Sidebar.css";
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   const location = useLocation();
+  const navigate = useNavigate(); //For redirect after logout
   // Helper function to check if a link is the current active path
   const isActive = (path) => location.pathname === path;
 
+  //LOGOUT Handler
+  const handleLogout = () => {
+    localStorage.clear(); //Clear all data from localStorage
+    toggleSidebar(); //Close the sidebar (if mobile)
+    navigate("/"); //Redirect to login page
+  };
+
   return (
-    // ⭐️ FIX: Use sidebar-open and sidebar-closed classes ⭐️
     <div className={`sidebar ${isOpen ? "sidebar-open" : "sidebar-closed"}`}>
       <button
         className="close-btn"
@@ -43,9 +48,28 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
             </Link>
           </li>
           <li className="logout-item">
-            <Link to="/logout" onClick={toggleSidebar}>
+            <button
+              onClick={handleLogout}
+              className="logout-button-style"
+              style={{
+                background: "none",
+                border: "none",
+                color: "#ff4d4d",
+                cursor: "pointer",
+                width: "100%",
+                textAlign: "left",
+                padding: "10px 0",
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+                fontSize: "20px",
+                fontWeight: "bold",
+              }}
+            >
+              {" "}
+              <LogOut size={20} />
               Logout
-            </Link>
+            </button>
           </li>
         </ul>
       </nav>

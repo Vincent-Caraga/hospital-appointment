@@ -94,14 +94,12 @@
 }
 .logout-item {
   margin-top: auto;
-  padding-top: 15px;
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid #eee;
+  padding-top: 20px;
 }
-.logout-item a {
-  color: #ef4444;
-}
-.logout-item a:hover {
-  background-color: rgba(239, 68, 68, 0.1);
+.logout-button-style:hover {
+  opacity: 0.8;
+  text-decoration: underline;
 }
 .close-btn {
   cursor: pointer;

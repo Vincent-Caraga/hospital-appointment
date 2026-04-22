@@ -10,7 +10,8 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
   const isActive = (path) => location.pathname === path;
 
   //LOGOUT Handler
-  const handleLogout = () => {
+  const handleLogout = (e) => {
+    e.preventDefault();
     localStorage.clear(); //Clear all data from localStorage
     toggleSidebar(); //Close the sidebar (if mobile)
     navigate("/"); //Redirect to login page
@@ -62,12 +63,12 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
                 display: "flex",
                 alignItems: "center",
                 gap: "10px",
-                fontSize: "20px",
+                fontSize: "24px",
                 fontWeight: "bold",
               }}
             >
               {" "}
-              <LogOut size={20} />
+              <LogOut size={28} />
               Logout
             </button>
           </li>

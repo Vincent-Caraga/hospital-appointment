@@ -1,0 +1,62 @@
+/*MOBILE DEFAULT*/
+.navbar-container-admin {
+  display: flex;
+  align-items: center;
+  height: 80px;
+  padding: 0 15px;
+  background-color: #0992c2;
+  color: white;
+}
+
+.nav-left-group {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.user-info-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-profile {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white;
+}
+
+.text-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name-text {
+  font-size: 1rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.greeting-subtext {
+  font-size: 0.8rem;
+  opacity: 0.9;
+  margin: 0;
+}
+
+/* TABLET & DESKTOP ENHANCEMENTS */
+@media (min-width: 768px) {
+  .navbar-container-admin {
+    height: 100px;
+  }
+
+  .admin-profile {
+    width: 60px;
+    height: 60px;
+  }
+
+  .user-name-text {
+    font-size: 1.2rem;
+  }
+}

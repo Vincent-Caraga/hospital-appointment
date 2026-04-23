@@ -9,6 +9,7 @@ import Test from "./pages/Test";
 import Dashboard from "./pages/Dashboard";
 import UserProfile from "./components/UserProfile/UserProfile";
 import ProtectedRoute from "./pages/ProtectedRoute";
+import AdminNavbar from "./components/AdminNavbar/AdminNavbar";
 
 const App = () => {
   return (
@@ -48,6 +49,7 @@ const App = () => {
 
         {/* If you want the old routes to still exist for testing: */}
         <Route path="/navbar" element={<Navbar />} />
+        <Route path="/admin-nav" element={<AdminNavbar />} />
       </Routes>
     </Router>
   );

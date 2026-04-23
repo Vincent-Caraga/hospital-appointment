@@ -1,0 +1,115 @@
+.sidebar {
+  /* 1. Positioning */
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+
+  height: 100vh;
+  width: 250px;
+  background-color: #ffffff;
+  box-shadow: -4px 0 12px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  transition: transform 0.3s ease-in-out;
+
+  display: flex;
+  flex-direction: column;
+}
+
+/* Sidebar closed */
+.sidebar-closed {
+  transform: translateX(-100%);
+}
+
+/* Sidebar open */
+.sidebar-open {
+  transform: translateX(0);
+}
+.sidebar-nav {
+  margin-left: 20px;
+  flex-grow: 1;
+  padding-top: 20px;
+}
+.sidebar-nav ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.sidebar-nav a {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  text-decoration: none;
+  color: #1f2937;
+  font-size: 1.2rem;
+  font-weight: 500;
+  transition:
+    background-color 0.2s,
+    color 0.2s border-right-color 0.2s;
+  border-right: 4px solid transparent;
+}
+.sidebar-nav a:hover {
+  background-color: #cbcbcb;
+  color: #1f2937;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: flex-start;
+  padding: 15px 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+.sidebar-header button {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  color: #333;
+}
+/* Menu list */
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.sidebar-menu li a {
+  display: block;
+  padding: 15px 20px;
+  text-decoration: none;
+  color: #333;
+  font-size: 1.1rem;
+  border-bottom: 1px solid #eee;
+}
+.sidebar-menu li:last-child a {
+  border-bottom: none;
+}
+.sidebar-menu li a:hover {
+  background-color: #f0f0f0;
+  color: #41a67e;
+}
+.sidebar-nav li.active a {
+  color: #3b82f6;
+  background-color: rgba(59, 130, 246, 0.08);
+  border-right-color: #3b82f6;
+}
+.logout-item {
+  margin-top: auto;
+  border-top: 1px solid #eee;
+  padding-top: 20px;
+}
+.logout-button-style:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+.close-btn {
+  cursor: pointer;
+  background: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #1f2937;
+  padding: 5px;
+  transition: color 0.2s;
+}
+.close-btn:hover {
+  color: #3b82f6;
+}

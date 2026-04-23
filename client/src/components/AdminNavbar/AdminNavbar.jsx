@@ -3,13 +3,14 @@ import { Menu } from "lucide-react";
 import { assets } from "../../assets/assets";
 import "../../CSS/AdminNavbar.css";
 
-const AdminNavbar = () => {
+const AdminNavbar = ({ toggleSidebar }) => {
   return (
     <>
       <div className="navbar-container-admin">
         <div className="nav-left-group">
           <button
             className="sidebar-toggle-btn"
+            onClick={toggleSidebar}
             aria-label="Toggle Navigation Menu"
           >
             <Menu size={25} color="#000" />

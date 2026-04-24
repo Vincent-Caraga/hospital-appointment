@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { X, LogOut } from "lucide-react";
+import { X, LogOut, ChevronDown, ChevronRight } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "../../CSS/AdminSidebar.css";
 
@@ -11,7 +11,7 @@ const AdminSidebar = (isOpen, toggleSidebar) => {
   const isActive = (path) => location.pathname === path;
 
   //State management for dropdown
-  const [isMainOpen, setIsMainOpen] = useState(false);
+  const [isMainOpen, setIsMainOpen] = useState(true); //Default open para sa Dashboard
   const [isManagementOpen, setIsManagementOpen] = useState(false);
   const [isReportOpen, setIsReportOpen] = useState(false);
 
@@ -19,12 +19,12 @@ const AdminSidebar = (isOpen, toggleSidebar) => {
   const handleLogout = (e) => {
     e.preventDefault();
     localStorage.clear(); //Clear all data from localStorage
-    toggleSidebar(); //Close all sidebar (if mobile)
+    if (toggleSidebar) toggleSidebar();
     navigate("/", { replace: true }); //Redirect to login page and avoid history entry
   };
 
   return (
-    <div className={`sidebar${isOpen ? "sidebar-open" : "sidebar-closed"}`}>
+    <div className={`sidebar ${isOpen ? "sidebar-open" : "sidebar-closed"}`}>
       <button
         className="close-btn"
         onClick={toggleSidebar}
@@ -33,20 +33,30 @@ const AdminSidebar = (isOpen, toggleSidebar) => {
         {" "}
         <X size={30} color="#333" />{" "}
       </button>
-      <div className="sidebar">
+      <div className="sidebar-content">
         <div className="my-profile">My Profile</div>
+
         {/*Main Section */}
         <div
           className="menu-header"
           onClick={() => setIsMainOpen(!isMainOpen)}
           style={{ cursor: "pointer" }}
         >
-          MAIN {isMainOpen ? "▾" : "▸"}
+          <span>MAIN</span>
+          {isMainOpen ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
         </div>
         {/*Conditional Rendering: Show the list if true*/}
         {isMainOpen && (
           <ul className="sub-menu">
-            <li>Dashboard</li>
+            <li
+              className={
+                location.pathname === "/admin-dashboard" ? "active" : ""
+              }
+            >
+              <Link Component={Link} to="/admin-dashboard">
+                Dashboard
+              </Link>
+            </li>
           </ul>
         )}
 
@@ -54,16 +64,25 @@ const AdminSidebar = (isOpen, toggleSidebar) => {
         <div
           className="menu-header"
           onClick={() => setIsManagementOpen(!isManagementOpen)}
-          style={{ cursor: "pointer" }}
         >
-          MANAGEMENT {isManagementOpen ? "▾" : "▸"}
+          <span>MANAGEMENT</span>
+          {isManagementOpen ? (
+            <ChevronDown size={18} />
+          ) : (
+            <ChevronRight size={18} />
+          )}
         </div>
-        {/*Conditional Rendering: Show the list if true */}
         {isManagementOpen && (
           <ul className="sub-menu">
-            <li>Patients</li>
-            <li>Doctors</li>
-            <li>Departments</li>
+            <li>
+              <Link to="/admin/patients">Patients</Link>
+            </li>
+            <li>
+              <Link to="/admin/doctors">Doctors</Link>
+            </li>
+            <li>
+              <Link to="/admin/departments">Departments</Link>
+            </li>
           </ul>
         )}
 
@@ -71,41 +90,30 @@ const AdminSidebar = (isOpen, toggleSidebar) => {
         <div
           className="menu-header"
           onClick={() => setIsReportOpen(!isReportOpen)}
-          style={{ cursor: "pointer" }}
         >
-          REPORTS {isReportOpen ? "▾" : "▸"}
+          <span>REPORTS</span>
+          {isReportOpen ? (
+            <ChevronDown size={18} />
+          ) : (
+            <ChevronRight size={18} />
+          )}
         </div>
         {/*Conditional Rendering: Show the list if true */}
         {isReportOpen && (
           <ul className="sub-menu">
-            <li>Appointments</li>
+            <li>
+              <Link to="/admin/appointments">Appointments</Link>
+            </li>
           </ul>
         )}
-        <li className="logout-item">
-          <button
-            onClick={handleLogout}
-            className="logout-button-style"
-            style={{
-              background: "none",
-              border: "none",
-              color: "#ff4d4d",
-              cursor: "pointer",
-              width: "100%",
-              textAlign: "left",
-              padding: "10px 0",
-              display: "flex",
-              alignItems: "center",
-              gap: "10px",
-              fontSize: "24px",
-              fontWeight: "bold",
-            }}
-          >
-            {" "}
+
+        {/*--Logout--*/}
+        <div className="logout-container">
+          <button onClick={handleLogout} className="logout-button-style">
             <LogOut size={28} />
-            Logout
+            <span>Logout</span>
           </button>
-          {/*Continue April 24 */}
-        </li>
+        </div>
       </div>
     </div>
   );

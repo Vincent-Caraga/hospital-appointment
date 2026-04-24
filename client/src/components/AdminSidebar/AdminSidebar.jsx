@@ -3,7 +3,7 @@ import { X, LogOut, ChevronDown, ChevronRight } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "../../CSS/AdminSidebar.css";
 
-const AdminSidebar = (isOpen, toggleSidebar) => {
+const AdminSidebar = ({ isOpen, toggleSidebar }) => {
   const location = useLocation();
   const navigate = useNavigate(); //For redirect after logout
 

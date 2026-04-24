@@ -14,6 +14,7 @@
 }
 /*Sidebar States (Mobile Responsive*/
 .sidebar-open {
+  display: block;
   transform: translateX(0);
 }
 .sidebar-closed {
@@ -46,4 +47,80 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 15px 10px 5px 10px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.menu-header:hover {
+  color: #333;
+}
+/*Sub-menu List*/
+.sub-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.sub-menu li {
+  padding: 0;
+}
+/*Sub-menu Links*/
+.sub-menu a,
+.sub-menu li span {
+  display: block;
+  padding: 10px 10px 30px; /*Indented to the right*/
+  text-decoration: none;
+  color: #555;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+.sub-menu a:hover {
+  background-color: #f5f5f5;
+  color: #007bff;
+}
+/*Active Page Highlights*/
+.sub-menu .active a {
+  background-color: #eef6ff;
+  color: #007bff;
+  font-weight: 600;
+}
+/*Logout container & Button*/
+.logout-container {
+  margin-top: auto;
+  padding: 20px;
+  border-top: 1px solid #f0f0f0;
+}
+.logout-button-style {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px;
+  background: none;
+  border: none;
+  color: #ff4d4d; /*Red for Logout*/
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+.logout-button-style:hover {
+  background-color: #fff5f5;
+}
+
+/*Desktop View Overrides*/
+@media (min-width: 769px) {
+  .sidebar-closed {
+    transform: translateX(0); /*Sidebar always display*/
+  }
+  .close-btn {
+    display: none; /*X is hide on desktop*/
+  }
 }

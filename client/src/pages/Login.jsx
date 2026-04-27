@@ -55,6 +55,7 @@ const Login = () => {
             <input
               type="email"
               id="email"
+              className="form-input"
               placeholder="Enter your Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -71,7 +72,7 @@ const Login = () => {
               placeholder="Enter Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="password-input"
+              className="form-input"
             />
             <div className="checkbox-wrapper">
               <input

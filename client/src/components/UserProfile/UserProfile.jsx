@@ -3,7 +3,21 @@ import "../../CSS/UserProfile.css";
 import { useEffect } from "react";
 
 const UserProfile = () => {
-  const [profileData, setProfileData] = useState({});
+  const [profileData, setProfileData] = useState({
+    lastname: "",
+    firstname: "",
+    middlename: "",
+    address: "",
+    zipcode: "",
+    sex: "",
+    dateOfBirth: "",
+    placeOfBirth: "",
+    civilStatus: "",
+    citizenship: "",
+    telephone: "",
+    mobileNo: "",
+    emailAddress: "",
+  });
   const userId = localStorage.getItem("userId");
 
   useEffect(() => {

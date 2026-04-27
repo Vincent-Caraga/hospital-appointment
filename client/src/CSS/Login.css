@@ -1,4 +1,4 @@
-/* Mobile styles (Default) */
+/* Base (Mobile-first) */
 .login-page {
   display: flex;
   justify-content: center;
@@ -45,50 +45,25 @@
   font-weight: bold;
   color: #343a40;
 }
-
-.form-group input {
-  width: 100%;
-  padding: 12px 15px;
-  border: 1px solid #ced4da;
-  border-radius: 8px;
-  box-sizing: border-box; /* Pre-emptive fix para hindi lumampas */
-  transition: border-color 0.3s;
-  font-size: 1rem;
-}
-
-.form-group input:focus {
-  border-color: #007bff;
-  outline: none;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-}
-
-/* Password Visibility Toggle Fix */
-.password-wrapper {
-  position: relative;
-  width: 103%;
-}
-
-.password-input {
-  padding-right: 45px !important; /* Space para sa mata icon */
-}
-
-.toggle-password {
-  position: absolute;
-  right: 20px;
-  top: 40%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #6c757d;
-  padding: 0;
+.checkbox-wrapper {
+  margin-top: 10px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  font-size: 0.85rem;
 }
-
-.toggle-password:hover {
+.checkbox-wrapper label {
+  margin-left: 5px;
   color: #343a40;
+}
+.password-input {
+  width: 100% !important;
+  height: 50px;
+  padding: 12px 15px !important;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  font-size: 1rem !important;
+  box-sizing: border-box;
+  font-family: inherit;
 }
 
 /* Buttons and Links */
@@ -137,32 +112,15 @@
   text-decoration: underline;
 }
 
-/* Desktop styles */
+/* Enhancements for larger screens */
 @media (min-width: 500px) {
   .login-container {
-    padding: 40px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     max-width: 420px;
+    padding: 40px;
   }
+
   .login-logo {
     font-size: 1.8rem;
-  }
-  .password-wrapper {
-    position: relative;
-    width: 90%;
-  }
-  .toggle-password {
-    position: absolute;
-    right: 20px;
-    top: 40%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: #6c757d;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
 }

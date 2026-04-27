@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "../CSS/Login.css";
 import { Link, useNavigate } from "react-router-dom";
-import { Eye, EyeOff } from "lucide-react";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -66,25 +65,22 @@ const Login = () => {
 
           <div className="form-group">
             <label htmlFor="password">Password</label>
-            <div className="password-wrapper">
+            <input
+              type={showPassword ? "text" : "password"}
+              id="password"
+              placeholder="Enter Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="password-input"
+            />
+            <div className="checkbox-wrapper">
               <input
-                type={showPassword ? "text" : "password"}
-                id="password"
-                placeholder="Enter your Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                className="password-input"
-                aria-required="true"
+                type="checkbox"
+                id="showPassword"
+                checked={showPassword}
+                onChange={() => setShowPassword(!showPassword)}
               />
-              <button
-                type="button"
-                className="toggle-password"
-                onClick={() => setShowPassword(!showPassword)}
-                aria-label={showPassword ? "Hide password" : "Show password"}
-              >
-                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-              </button>
+              <label htmlFor="showPassword">Show password</label>
             </div>
           </div>
 

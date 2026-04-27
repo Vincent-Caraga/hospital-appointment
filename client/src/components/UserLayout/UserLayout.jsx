@@ -13,6 +13,7 @@ const UserLayout = () => {
   const userRole = localStorage.getItem("role");
 
   const toggleSidebar = () => {
+    console.log("Sidebar status before toggle:", isSidebarOpen);
     setIsSidebarOpen((prev) => !prev);
   };
   return (
@@ -26,8 +27,11 @@ const UserLayout = () => {
 
       {/*Main container for Navbar and Content*/}
       <div className={`main-container ${isSidebarOpen ? "shifted" : ""}`}>
-        <Navbar toggleSidebar={toggleSidebar} />
-        <AdminSidebar toggleSidebar={toggleSidebar} />
+        {userRole === "SuperAdmin" ? (
+          <AdminNavbar toggleSidebar={toggleSidebar} />
+        ) : (
+          <Navbar toggleSidebar={toggleSidebar} />
+        )}
         <div className="content-area">
           <Outlet />
         </div>
@@ -35,5 +39,6 @@ const UserLayout = () => {
     </div>
   );
 };
+//Last update April 24
 
 export default UserLayout;

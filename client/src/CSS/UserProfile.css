@@ -56,19 +56,18 @@ h2 {
 
 /* Larger Screens */
 @media (min-width: 768px) {
+  .profile-form-container {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 20px;
+  }
   .form-row {
     flex-direction: row;
     gap: 15px;
-    align-items: flex-start; /* para hindi mag‑stretch weirdly */
   }
-
-  .form-group {
-    flex: 1; /* pantay ang laki ng bawat field */
-    min-width: 0; /* iwas overflow/shrink issues */
-  }
-
+  /* Adjust layout for different column counts (Desktop/Tablet) */
   .three-col .form-group {
-    flex: 1 1 33.33%;
+    flex: 1 1 33.33%; /*Three equal columns */
   }
   .four-col .form-group {
     flex: 1 1 25%;
@@ -76,16 +75,16 @@ h2 {
   .five-col .form-group {
     flex: 1 1 20%;
   }
-
+  /* Specific layout for the Address Row (using grid for complex ratios) */
   .address-row {
     display: grid;
     grid-template-columns: 3fr 1fr;
-    gap: 15px; /* dagdag spacing para hindi dikit */
   }
-
-  .form-group input,
-  .form-group select {
-    width: 100%; /* siguradong sakop ang column space */
+  .address-row .form-group:first-child {
+    grid-column: 1 / 2;
+  }
+  .address-row .form-group:last-child {
+    grid-column: 2 / 3;
   }
   /* Submit button (Desktop) */
   .form-actions {

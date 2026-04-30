@@ -219,11 +219,9 @@ app.get("/api/appointments/booked/:doctorId/:date", async (req, res) => {
   }
 });
 
-//D. UPDATE USER PROFILE
-app.put("/api/profile/:id", async (req, res) => {
-  //Get the user ID from the URL parameter
+//D. GET USER Profile
+app.get("/api/profile/:id", async (req, res) => {
   const { id } = req.params;
-
   const query = `
     SELECT u.user_id,
            u.first_name AS "firstname",
@@ -245,9 +243,68 @@ app.put("/api/profile/:id", async (req, res) => {
     if (result.rows.length === 0) {
       return res.status(404).json({ message: "User not found" });
     }
+    res.json(result.rows[0]); // direct profile object
+  } catch (err) {
+    console.error("Error fetching profile:", err.message);
+    res.status(500).json({ error: "Failed to fetch profile" });
+  }
+});
+
+//E. UPDATE USER Profile
+app.put("/api/profile/:id", async (req, res) => {
+  const { id } = req.params;
+  const {
+    lastname,
+    firstname,
+    middlename,
+    address,
+    zipcode,
+    sex,
+    dateOfBirth,
+    placeOfBirth,
+    civilStatus,
+    citizenship,
+    telephone,
+    mobileNo,
+    emailAddress,
+  } = req.body;
+
+  try {
+    const query = `
+      INSERT INTO patients (
+        patient_id, lastname, firstname, middlename, address, zipcode,
+        sex, date_of_birth, place_of_birth, civil_status, citizenship,
+        telephone, mobile_no, email_address
+      )
+      VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)
+      ON CONFLICT (patient_id) DO UPDATE SET
+        lastname=$2, firstname=$3, middlename=$4, address=$5, zipcode=$6,
+        sex=$7, date_of_birth=$8, place_of_birth=$9, civil_status=$10,
+        citizenship=$11, telephone=$12, mobile_no=$13, email_address=$14
+      RETURNING *;
+    `;
+
+    const values = [
+      id,
+      lastname,
+      firstname,
+      middlename,
+      address,
+      zipcode,
+      sex,
+      dateOfBirth,
+      placeOfBirth,
+      civilStatus,
+      citizenship,
+      telephone,
+      mobileNo,
+      emailAddress,
+    ];
+
+    const result = await pool.query(query, values);
     res.json({
-      message: "Profile fetched successfully",
-      profile: result.rows[0],
+      message: "Profile updated successfully",
+      user: result.rows[0],
     });
   } catch (err) {
     console.error("Error updating profile:", err.message);

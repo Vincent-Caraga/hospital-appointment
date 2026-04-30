@@ -121,13 +121,32 @@ app.post("/api/register", async (req, res) => {
     );
 
     const user = result.rows[0];
+    await pool.query(
+      `INSERT INTO patients (patient_id, firstname, lastname, date_of_birth, email_address)
+      VALUES ($1, $2, $3, $4, $5)
+      ON CONFLICT (patient_id) DO NOTHING
+      `,
+      [
+        user.user_id,
+        user.first_name,
+        user.last_name,
+        user.email,
+        user.birthdate,
+      ],
+    );
     const token = jwt.sign(
       { id: user.user_id, username: user.username, role: user.role },
       SECRET_KEY,
       { expiresIn: "1h" },
     );
 
-    res.json({ message: "User registered successfully", user, token });
+    res.json({
+      message: "User registered successfully",
+      user,
+      token,
+      firstname: user.first_name,
+      lastname: user.last_name,
+    });
   } catch (err) {
     console.error("Error registering user:", err.message);
     res.status(500).json({ error: "Registration failed" });
@@ -205,124 +224,35 @@ app.put("/api/profile/:id", async (req, res) => {
   //Get the user ID from the URL parameter
   const { id } = req.params;
 
-  //Destructure the data sent from the React from (req.body)
-  const {
-    lastname,
-    firstname,
-    middlename,
-    address,
-    zipcode,
-    sex,
-    dateOfBirth,
-    placeOfBirth,
-    civilStatus,
-    citizenship,
-    telephone,
-    mobileNo,
-    emailAddress,
-  } = req.body;
-
+  const query = `
+    SELECT u.user_id,
+           u.first_name AS "firstname",
+           u.last_name AS "lastname",
+           u.birthdate AS "dateOfBirth",
+           u.email AS "emailAddress",
+           p.address, p.zipcode, p.sex,
+           p.place_of_birth AS "placeOfBirth",
+           p.civil_status AS "civilStatus",
+           p.citizenship, p.telephone,
+           p.mobile_no AS "mobileNo",
+           p.email_address AS "emailAddress"
+    FROM users u 
+    LEFT JOIN patients p ON u.user_id = p.patient_id
+    WHERE u.user_id = $1;
+  `;
   try {
-    const query = `INSERT INTO patients (
-    patient_id, lastname, firstname, middlename, address, zipcode,
-    sex, date_of_birth, place_of_birth, civil_status, citizenship,
-    telephone, mobile_no, email_address
-    )
-    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
-    ON CONFLICT (patient_id) DO UPDATE SET lastname=$2, firstname=$3, middlename=$4,
-    address=$5, zipcode=$6, sex=$7, date_of_birth=$8, place_of_birth=$9, civil_status=$10,
-    citizenship=$11, telephone=$12, mobile_no=$13, email_address=$14 RETURNING *;
-    `;
-
-    const values = [
-      id,
-      lastname,
-      firstname,
-      middlename,
-      address,
-      zipcode,
-      sex,
-      dateOfBirth,
-      placeOfBirth,
-      civilStatus,
-      citizenship,
-      telephone,
-      mobileNo,
-      emailAddress,
-    ];
-
-    const result = await pool.query(query, values);
+    const result = await pool.query(query, [id]);
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
     res.json({
-      message: "Profile updated successfully",
-      user: result.rows[0],
+      message: "Profile fetched successfully",
+      profile: result.rows[0],
     });
   } catch (err) {
     console.error("Error updating profile:", err.message);
     res.status(500).send("Failed to update profile");
   }
-
-  /*
-  //Convert date format for PostgreSQL
-  let dbDateOfBirth = null;
-  if (dateOfBirth) {
-    //Simple conversion of date format to YYYY-MM-DD
-    const parts = dateOfBirth.split("/");
-    dbDateOfBirth =
-      parts.length === 3 ? `${parts[2]}-${parts[0]}-${parts[1]}` : dateOfBirth;
-  }*/
-  /*
-  try {
-    const updateQuery = `
-    UPDATE patients
-    SET
-      lastname = $1,
-      firstname = $2,
-      middlename = $3,
-      address = $4,
-      zipcode = $5,
-      sex = $6,
-      date_of_birth = $7,
-      place_of_birth = $8,
-      civil_status = $9,
-      citizenship = $10,
-      telephone = $11,
-      mobile_no = $12,
-      email_address = $13
-    WHERE patient_id = $14
-    RETURNING *;
-    `;
-    const values = [
-      lastname,
-      firstname,
-      middlename,
-      address,
-      zipcode,
-      sex,
-      dbDateOfBirth,
-      placeOfBirth,
-      civilStatus,
-      citizenship,
-      telephone,
-      mobileNo,
-      emailAddress,
-      id, // The user_id goes last
-    ];
-
-    const result = await pool.query(updateQuery, values);
-
-    if (result.rows.length === 0) {
-      return res.status(404).json({ message: "User not found." });
-    }
-
-    console.log("Profile updated for user ID:", id);
-    res.json({
-      message: "Profile updated successfully",
-      user: result.rows[0],
-    });
-  } catch (err) {
-    console.error("Error updating profile:", err.message);
-    res.status(500).send("Failed to update profile");
-  }*/
 });
 
 //START SERVER

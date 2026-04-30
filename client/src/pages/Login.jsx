@@ -27,8 +27,11 @@ const Login = () => {
       if (res.ok) {
         localStorage.setItem("token", data.token);
         localStorage.setItem("userId", data.userId);
-        localStorage.setItem("firstname", data.firstname);
-        localStorage.setItem("lastname", data.lastname);
+        localStorage.setItem(
+          "firstname",
+          data.firstname || data.user.first_name,
+        );
+        localStorage.setItem("lastname", data.lastname || data.user.last_name);
         navigate("/dashboard");
       } else {
         setError(data.message || "Login failed");

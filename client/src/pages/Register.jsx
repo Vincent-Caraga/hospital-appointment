@@ -65,6 +65,11 @@ const Register = () => {
         setMessage("Registration successful");
         localStorage.setItem("userId", data.user.user_id);
         localStorage.setItem("token", data.token);
+        localStorage.setItem(
+          "firstname",
+          data.firstname || data.user.first_name,
+        );
+        localStorage.setItem("lastname", data.lastname || data.user.last_name);
         window.location.href = "/user-profile";
 
         setFormData({

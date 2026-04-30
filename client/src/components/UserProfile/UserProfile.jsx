@@ -29,7 +29,13 @@ const UserProfile = () => {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     })
       .then((res) => res.json())
-      .then((data) => setProfileData((prev) => ({ ...prev, ...data })));
+      .then((data) =>
+        setProfileData((prev) => ({
+          ...prev,
+          dateOfBirth: data.dateOfBirth,
+          emailAddress: data.userEmail || data.patientEmail,
+        })),
+      );
   }, [userId]);
 
   //HandleChange to function the form inputs

@@ -227,13 +227,13 @@ app.get("/api/profile/:id", async (req, res) => {
            u.first_name AS "firstname",
            u.last_name AS "lastname",
            u.birthdate AS "dateOfBirth",
-           u.email AS "emailAddress",
+           u.email AS "userEmail",
            p.address, p.zipcode, p.sex,
            p.place_of_birth AS "placeOfBirth",
            p.civil_status AS "civilStatus",
            p.citizenship, p.telephone,
            p.mobile_no AS "mobileNo",
-           p.email_address AS "emailAddress"
+           p.email_address AS "patientEmail"
     FROM users u 
     LEFT JOIN patients p ON u.user_id = p.patient_id
     WHERE u.user_id = $1;

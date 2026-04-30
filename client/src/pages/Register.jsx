@@ -25,8 +25,20 @@ const Register = () => {
     e.preventDefault();
     setMessage("");
 
+    //Required fields check
+    if (
+      !formData.username ||
+      !formData.firstname ||
+      !formData.lastname ||
+      !formData.email
+    ) {
+      setMessage("Please fill in all required fields.");
+      return;
+    }
+
+    //Password match check
     if (formData.password !== formData.confirmPassword) {
-      setMessage("Passwords are not match!");
+      setMessage("Passwords do not match!");
       return;
     }
 
@@ -51,6 +63,10 @@ const Register = () => {
 
       if (res.ok) {
         setMessage("Registration successful");
+        localStorage.setItem("userId", data.user.user_id);
+        localStorage.setItem("token", data.token);
+        window.location.href = "/user-profile";
+
         setFormData({
           username: "",
           firstname: "",

@@ -63,8 +63,10 @@ h2 {
   }
   .form-row {
     flex-direction: row;
-    gap: 15px;
+    gap: 40px;
+    align-items: flex-start;
   }
+
   /* Adjust layout for different column counts (Desktop/Tablet) */
   .three-col .form-group {
     flex: 1 1 33.33%; /*Three equal columns */

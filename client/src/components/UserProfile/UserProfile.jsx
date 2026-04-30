@@ -20,12 +20,16 @@ const UserProfile = () => {
   });
   const userId = localStorage.getItem("userId");
 
+  // API Integration
+  // The URL of API endpoint to update the user profile
+  const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
   useEffect(() => {
-    fetch(`http://localhost:5000/api/profile/${userId}`, {
+    fetch(`${API_BASE_URL}/api/profile/${userId}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     })
       .then((res) => res.json())
-      .then((data) => setProfileData(data));
+      .then((data) => setProfileData((prev) => ({ ...prev, ...data })));
   }, [userId]);
 
   //HandleChange to function the form inputs
@@ -41,12 +45,8 @@ const UserProfile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // API Integration
-    // The URL of API endpoint to update the user profile
-    const apiUrl = `http://localhost:5000/api/profile/${userId}`;
-
     try {
-      const response = await fetch(apiUrl, {
+      const response = await fetch(`${API_BASE_URL}/api/profile/${userId}`, {
         // Use  PUT for updating resource
         method: "PUT",
         headers: {
@@ -160,7 +160,6 @@ const UserProfile = () => {
             <option value="">Select...</option>
             <option value="Male">MALE</option>
             <option value="Female">FEMALE</option>
-            <option value="Other">OTHER</option>
           </select>
         </div>
 
@@ -206,7 +205,7 @@ const UserProfile = () => {
         />
         <InputField
           label="TELEPHONE NO."
-          name="telephoneNo"
+          name="telephone"
           value={profileData.telephone}
           onChange={handleChange}
           required={false}
